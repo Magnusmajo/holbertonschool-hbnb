@@ -82,6 +82,6 @@ This setup will get the application up and running on your local machine.
 This is a Holberton School Project  
 **Author**: Alexis Rodriguez Rodriguez  
 **Location**: Montevideo, Uruguay  
-**Date**: September 2024
+**Date**: 2024
 
 © 2024 Alexis-Holberton School -- All rights reserved --
