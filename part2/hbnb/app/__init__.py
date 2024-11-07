@@ -9,3 +9,4 @@ def create_app():
     # Additional namespaces for places, reviews, and amenities will be added later
 
     return app
+    
