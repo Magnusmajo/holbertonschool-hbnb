@@ -65,6 +65,15 @@ class Place(BaseModel):
 
     @owner.setter
     def owner(self, value):
+        """
+    Sets the owner of the place.
+
+    Args:
+        value (User): The user instance to set as the owner.
+
+    Raises:
+        ValueError: If the provided value is not an instance of User.
+    """
         if not isinstance(value, User):
             raise ValueError("Owner must be a valid User instance.")
         self._owner = value

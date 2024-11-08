@@ -90,7 +90,7 @@ class HBnBFacade:
 
     # Placeholder method for fetching a review by ID
     def get_review(self, review_id):
-        """ 
+        """
         Retrieve a review by its ID.
         Same way than get_user.
         """
