@@ -77,3 +77,4 @@ class Place(BaseModel):
         if not isinstance(value, User):
             raise ValueError("Owner must be a valid User instance.")
         self._owner = value
+        

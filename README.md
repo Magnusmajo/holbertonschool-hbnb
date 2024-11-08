@@ -77,6 +77,24 @@ To install the project, follow these steps:
 
 This setup will get the application up and running on your local machine.
 
+### Model Package
+
+- **models/base_model.py**: Defines the base class for all models in the application.
+
+#### BaseModel
+
+- Initializes a unique ID using UUID and timestamps for creation and updates.
+- Contains a save method to update the updated_at timestamp.
+- Includes an update method that allows updating multiple attributes based on a dictionary input.
+- Has a \_\_repr\_\_ method to return a string representation of the object.
+
+### Amenity:
+
+- Inherits from BaseModel.
+- Initializes with a name attribute, which is validated to ensure it is not empty and is less than 50 characters.
+- Overrides the __repr__ method to return a string representation specific to the Amenity class.
+- Contains a save method that updates the updated_at timestamp, although it seems to contain a placeholder comment for saving the amenity.
+
 ---
 
 This is a Holberton School Project  
@@ -84,4 +102,6 @@ This is a Holberton School Project
 **Location**: Montevideo, Uruguay  
 **Date**: 2024
 
-© 2024 Alexis-Holberton School -- All rights reserved --
+© 2024 Alexis-Holberton School  
+Bryan Aleman  
+-- All rights reserved --
