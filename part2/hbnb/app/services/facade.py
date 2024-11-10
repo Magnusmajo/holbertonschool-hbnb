@@ -23,6 +23,7 @@ class HBnBFacade:
         Returns:
             User: The new created user object.
         """
+        self.user_repo = InMemoryRepository()
         user = User(**user_data)
         self.user_repo.save(user)
         return user
@@ -31,12 +32,12 @@ class HBnBFacade:
     def get_user(self, user_id):
         """
         Retrieve a user by user ID.
-        Args:
-            user_id (int): The ID of the user.
-        Returns:
-            User: The user object that correspond to a given user ID.
         """
-        return self.user_repo.get(User, user_id)
+        return self.user_repo.get(user_id)
+
+    # Placeholder method for fetching a user by email
+    def get_user_by_email(self, email):
+        return self.user_repo.get_by_attribute('email', email)
 
         # Placeholder method for creating a place
     def create_place(self, place_data):
