@@ -77,7 +77,7 @@ To install the project, follow these steps:
 
 This setup will get the application up and running on your local machine.
 
-### Model Package
+## Core Business Logic Classes Implementation
 
 - **models/base_model.py**: Defines the base class for all models in the application.
 
@@ -86,9 +86,32 @@ This setup will get the application up and running on your local machine.
 - Initializes a unique ID using UUID and timestamps for creation and updates.
 - Contains a save method to update the updated_at timestamp.
 - Includes an update method that allows updating multiple attributes based on a dictionary input.
-- Has a \_\_repr\_\_ method to return a string representation of the object.
 
-### Amenity:
+#### User
+
+- Inherits from BaseModel and adds user-specific attributes.
+- Contains the constructor method to define the attributes for the user representation.
+- Includes a validator method for the first_name, last_name (validate_name).
+- Includes a validator method for the email (validate_email).
+
+#### Place
+
+- Inherits from BaseModel taking the id, created_at and updated_at
+- Contains the constructor method to define the attributes for the place representation.
+- Includes the requirements for the title (Required, maximum length of 100 characters.)
+- Includes the requirements for the price (Must be a positive value.)
+- Includes the requirements for the latitude (Must be within the range of -90.0 to 90.0.)
+- Includes the requirements for the longitude (Must be within the range of -180.0 to 180.0.)
+- Includes the requirements for the owner (An instance of User, who owns the place)
+
+#### Review
+- Inherits from BaseModel taking the id, created_at and updated_at
+- Contains the constructor method to define the attributes for the review representation.
+- includes the validation for the required text
+- includes the validation for the rating (Must be a positive integer between 0 and 5.)
+Includes the User and Place instances to ensure the relationship between them
+
+#### Amenity:
 
 - Inherits from BaseModel.
 - Initializes with a name attribute, which is validated to ensure it is not empty and is less than 50 characters.
@@ -99,9 +122,10 @@ This setup will get the application up and running on your local machine.
 
 This is a Holberton School Project  
 **Author**: Alexis Rodriguez Rodriguez  
+            Bryan Aleman
 **Location**: Montevideo, Uruguay  
 **Date**: 2024
 
 © 2024 Alexis-Holberton School  
-Bryan Aleman  
+       Bryan Aleman  
 -- All rights reserved --
