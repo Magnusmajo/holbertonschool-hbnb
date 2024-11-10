@@ -78,6 +78,9 @@ To install the project, follow these steps:
 This setup will get the application up and running on your local machine.
 
 ## Core Business Logic Classes Implementation
+The Business Logic layer is responsible for the core functionalities of the application.
+It manages the data and the rules that govern the application's behavior. In this layer,
+we define various entities that represent the key components of the application.
 
 - **models/base_model.py**: Defines the base class for all models in the application.
 
@@ -93,6 +96,30 @@ This setup will get the application up and running on your local machine.
 - Contains the constructor method to define the attributes for the user representation.
 - Includes a validator method for the first_name, last_name (validate_name).
 - Includes a validator method for the email (validate_email).
+
+##### Example Usage
+
+Below is an example of how to create a new user and handle potential validation errors:
+
+```python
+from app.models.user import User
+
+try:
+    user1 = User(first_name="", last_name="Myers", email="trap.ups@example.com")
+    print(user1)
+except ValueError as e:
+    print(f"first_name is required and must be at most 50 characters long.: {e}")
+
+try:
+    user2 = User(first_name="Anuel", last_name="AA", email="trap.shi@example.com")  # This will raise an error
+except ValueError as e:
+    print(f"Error creating user: {e}")
+
+try:
+    user3 = User(first_name="Sixtinine", last_name="", email="sixtinine.anotherothershi@example.com")
+    print(user3)
+except ValueError as e:
+    print(f"last_name is required and must be at most 50 characters long.: {e}")
 
 #### Place
 
@@ -122,7 +149,7 @@ Includes the User and Place instances to ensure the relationship between them
 
 This is a Holberton School Project  
 **Author**: Alexis Rodriguez Rodriguez  
-            Bryan Aleman
+            Bryan Aleman  
 **Location**: Montevideo, Uruguay  
 **Date**: 2024
 
