@@ -97,7 +97,7 @@ we define various entities that represent the key components of the application.
 - Includes a validator method for the first_name, last_name (validate_name).
 - Includes a validator method for the email (validate_email).
 
-##### Example Usage
+#### Example Usage
 
 Below is an example of how to create a new user and handle potential validation errors:
 
@@ -120,16 +120,17 @@ try:
     print(user3)
 except ValueError as e:
     print(f"last_name is required and must be at most 50 characters long.: {e}")
+    ```
 
 #### Place
 
-- Inherits from BaseModel taking the id, created_at and updated_at
+- Inherits from BaseModel and adds place-specific attributes.
 - Contains the constructor method to define the attributes for the place representation.
-- Includes the requirements for the title (Required, maximum length of 100 characters.)
-- Includes the requirements for the price (Must be a positive value.)
-- Includes the requirements for the latitude (Must be within the range of -90.0 to 90.0.)
-- Includes the requirements for the longitude (Must be within the range of -180.0 to 180.0.)
-- Includes the requirements for the owner (An instance of User, who owns the place)
+- Includes a validator method for the title (Required, maximum length of 100 characters).
+- Includes a validator method for the price (Must be a positive value).
+- Includes a validator method for the latitude (Must be within the range of -90.0 to 90.0).
+- Includes a validator method for the longitude (Must be within the range of -180.0 to 180.0).
+- Includes a validator method for the owner (Must be an instance of User, who owns the place).
 
 #### Review
 - Inherits from BaseModel taking the id, created_at and updated_at
