@@ -11,6 +11,7 @@ class User(BaseModel):
         self.last_name = self.validate_name(last_name, "Last name")
         self.email = self.validate_email(email)
         self.is_admin = is_admin
+        self.places = []  #It saves the places that the user has created
 
     def validate_name(self, name, field_name):
         if not name or len(name) > 50:

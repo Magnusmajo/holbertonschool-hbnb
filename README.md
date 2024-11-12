@@ -132,6 +132,39 @@ except ValueError as e:
 - Includes a validator method for the longitude (Must be within the range of -180.0 to 180.0).
 - Includes a validator method for the owner (Must be an instance of User, who owns the place).
 
+#### Example Usage
+
+Below is an example of how to create a new place and handle potential validation errors:
+
+```python
+from app.models.place import Place
+from app.models.user import User
+
+# Create a user instance to be the owner of the place
+owner = User(first_name="John", last_name="Doe", email="john.doe@example.com")
+
+try:
+    place1 = Place(title="Beautiful Beach House", price=250.0, latitude=34.0522, longitude=-118.2437, owner=owner)
+    print(place1)
+except ValueError as e:
+    print(f"Error creating place: {e}")
+
+try:
+    place2 = Place(title="", price=150.0, latitude=34.0522, longitude=-118.2437, owner=owner)  # This will raise an error
+except ValueError as e:
+    print(f"Error creating place: {e}")
+
+try:
+    place3 = Place(title="Mountain Cabin", price=-50.0, latitude=34.0522, longitude=-118.2437, owner=owner)  # This will raise an error
+except ValueError as e:
+    print(f"Error creating place: {e}")
+
+try:
+    place4 = Place(title="City Apartment", price=200.0, latitude=100.0, longitude=-118.2437, owner=owner)  # This will raise an error
+except ValueError as e:
+    print(f"Error creating place: {e}")
+```
+
 #### Review
 - Inherits from BaseModel taking the id, created_at and updated_at
 - Contains the constructor method to define the attributes for the review representation.
@@ -139,12 +172,74 @@ except ValueError as e:
 - includes the validation for the rating (Must be a positive integer between 0 and 5.)
 Includes the User and Place instances to ensure the relationship between them
 
+#### Example Usage
+
+Below is an example of how to create a new review and handle potential validation errors:
+
+```python
+from app.models.review import Review
+from app.models.user import User
+from app.models.place import Place
+
+# Create a user instance to be the author of the review
+author = User(first_name="Jane", last_name="Doe", email="jane.doe@example.com")
+
+# Create a place instance to be reviewed
+place = Place(title="Cozy Cottage", price=120.0, latitude=45.1234, longitude=-93.1234, owner=author)
+
+try:
+    review1 = Review(text="Great place to stay!", rating=5, user=author, place=place)
+    print(review1)
+except ValueError as e:
+    print(f"Error creating review: {e}")
+
+try:
+    review2 = Review(text="", rating=4, user=author, place=place)  # This will raise an error
+except ValueError as e:
+    print(f"Error creating review: {e}")
+
+try:
+    review3 = Review(text="Not bad", rating=6, user=author, place=place)  # This will raise an error
+except ValueError as e:
+    print(f"Error creating review: {e}")
+
+try:
+    review4 = Review(text="Could be better", rating=3, user=None, place=place)  # This will raise an error
+except ValueError as e:
+    print(f"Error creating review: {e}")
+```
+
 #### Amenity:
 
 - Inherits from BaseModel.
 - Initializes with a name attribute, which is validated to ensure it is not empty and is less than 50 characters.
 - Overrides the __repr__ method to return a string representation specific to the Amenity class.
 - Contains a save method that updates the updated_at timestamp, although it seems to contain a placeholder comment for saving the amenity.
+
+#### Example Usage
+
+Below is an example of how to create a new amenity and handle potential validation errors:
+
+```python
+from app.models.amenity import Amenity
+
+try:
+    amenity1 = Amenity(name="Free WiFi")
+    print(amenity1)
+except ValueError as e:
+    print(f"Error creating amenity: {e}")
+
+try:
+    amenity2 = Amenity(name="")  # This will raise an error
+except ValueError as e:
+    print(f"Error creating amenity: {e}")
+
+try:
+    amenity3 = Amenity(name="Swimming Pool")
+    print(amenity3)
+except ValueError as e:
+    print(f"Error creating amenity: {e}")
+```
 
 ---
 

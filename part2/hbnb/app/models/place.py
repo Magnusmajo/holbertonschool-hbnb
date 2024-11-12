@@ -5,7 +5,7 @@ from app.models.user import User
 class Place(BaseModel):
     """Represents a place with a title, description, price, location, and owner."""
 
-    def __init__(self, title, description=None, price=float, latitude=float, longitude=float, owner=User):
+    def __init__(self, title=str, description=None, price=float, latitude=float, longitude=float, owner=User):
         """
         Initializes a new Place instance.
 
