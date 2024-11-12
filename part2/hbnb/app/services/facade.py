@@ -39,7 +39,7 @@ class HBnBFacade:
     def get_user_by_email(self, email):
         return self.user_repo.get_by_attribute('email', email)
 
-        # Placeholder method for creating a place
+    # Placeholder method for creating a place
     def create_place(self, place_data):
         """
         Creates a new place and saves it to the repository.
@@ -59,7 +59,6 @@ class HBnBFacade:
     def get_place(self, place_id):
         """
         Retrieve a place by its ID.
-
         Same way than get_user.
         """
         return self.place_repo.get(Place, place_id)
@@ -70,12 +69,7 @@ class HBnBFacade:
         Creates a review for a given user and place.
 
         Args:
-            review_data (dict): A dictionary containing review details including
-                                'user_id' and 'place_id'.
-
-        Returns:
-            Review: An instance of the Review class populated with the provided data.
-
+            review_data (dict): A dictionary containing review details including 'user_id' and place_id'.
         Raises:
             ValueError: If the user or place is not found.
         """
@@ -89,13 +83,36 @@ class HBnBFacade:
         else:
             raise ValueError("User or place not found")
 
-    # Placeholder method for fetching a review by ID
     def get_review(self, review_id):
         """
         Retrieve a review by its ID.
         Same way than get_user.
         """
         return self.review_repo.get(Review, review_id)
+
+    def get_all_reviews(self):
+        # Placeholder for logic to retrieve all reviews
+        pass
+
+    def get_reviews_by_place(self, place_id):
+        # Placeholder for logic to retrieve all reviews for a specific place
+        pass
+
+    def update_review(self, review_id, review_data):
+        # Placeholder for logic to update a review
+        pass
+
+    def delete_review(self, review_id):
+        # Placeholder for logic to delete a review
+        pass
+
+    def get_all_places(self):
+        # Placeholder for logic to retrieve all places
+        pass
+
+    def update_place(self, place_id, place_data):
+        # Placeholder for logic to update a place
+        pass
 
     # Placeholder method for creating an amenity
     def create_amenity(self, amenity_data):
