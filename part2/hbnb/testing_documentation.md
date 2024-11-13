@@ -4,7 +4,7 @@
 
 **Nombre del Proyecto:** HBnB Evolution  
 **Fecha de Documentación:** 27/10/2024  
-**Autores:** Bryan Alemán, Luna Leguisamo, Julieta Bobadilla  
+**Autores:** Bryan Alemán, Alexis Rodriguez, Matthew Hernandez
 **Versión del Proyecto:** 1.0
 
 **Objetivo de la Prueba:**  
