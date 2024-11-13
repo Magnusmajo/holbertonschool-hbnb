@@ -1,5 +1,7 @@
 # holbertonschool-hbnb
 
+![Captura de pantalla 2024-11-13 105055](https://github.com/user-attachments/assets/90fe9f96-596a-4d7a-a60d-852a7a6c3b54)
+
 HBnB project for Holberton School
 
 ## Project Setup Overview
