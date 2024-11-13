@@ -27,6 +27,7 @@ class Place(BaseModel):
         self.latitude = latitude
         self.longitude = longitude
         self.owner = owner
+        self.reviews = []  # A list of reviews for the place.
 
     def __repr__(self):
         """Returns a string representation of the Place instance."""
@@ -131,3 +132,8 @@ class Place(BaseModel):
         if not isinstance(value, User):
             raise ValueError("Owner must be a valid User instance.")
         self._owner = value
+
+def add_review(self, review):
+    """Adds a review to the place."""
+    self.reviews.append(review)
+    review.place = self  # Ensure the review knows which place it belongs to

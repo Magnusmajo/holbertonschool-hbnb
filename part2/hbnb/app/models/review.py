@@ -151,3 +151,6 @@ class Review(BaseModel):
             @updated_at.setter
             def updated_at(self, value):
                 self._updated_at = value
+
+    def __repr__(self):
+        return f"<Review by {self.user.first_name} for {self.place.title}>"

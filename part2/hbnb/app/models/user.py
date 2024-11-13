@@ -26,5 +26,10 @@ class User(BaseModel):
         User.__emails.add(email)
         return email
 
+    def add_place(self, place):
+        self.places.append(place)
+        place.owner = self   # Set the place's owner to this user
+
     def __repr__(self):
         return f"<User  {self.first_name} {self.last_name}>"
+    

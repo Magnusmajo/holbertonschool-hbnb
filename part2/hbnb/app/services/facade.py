@@ -79,6 +79,7 @@ class HBnBFacade:
             review_data['user'] = user
             review_data['place'] = place
             review = Review(**review_data)
+            self.review_repo.save(review)
             return review
         else:
             raise ValueError("User or place not found")
