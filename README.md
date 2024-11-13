@@ -251,4 +251,5 @@ This is a Holberton School Project
 
 © 2024 Alexis-Holberton School  
        Bryan Aleman  
+       Matthew Hernandez
 -- All rights reserved --
