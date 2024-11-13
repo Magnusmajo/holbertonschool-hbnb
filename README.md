@@ -249,7 +249,8 @@ This is a Holberton School Project
 **Location**: Montevideo, Uruguay  
 **Date**: 2024
 
-© 2024 Alexis-Holberton School  
-       Bryan Aleman  
-       Matthew Hernandez
--- All rights reserved --
+**Project**: An Holberton School project
+Alexis Rodriguez  
+Bryan Aleman  
+Matthew Hernandez  
+© 2024-- All rights reserved --
