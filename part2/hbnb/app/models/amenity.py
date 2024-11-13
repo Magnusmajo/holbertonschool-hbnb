@@ -4,6 +4,7 @@ class Amenity(BaseModel):
     def __init__(self, name):
         super().__init__()
         self.name = name
+        self.places = []  # A list of places that have this amenity.
 
     @property
     def name(self):
@@ -20,7 +21,16 @@ class Amenity(BaseModel):
 
     def save(self):
         super().save()  # Call the save method from BaseModel
-        # chicos el codigo adicional para guardar las amenities en base de datos o en memoria debe ser implementado aqui.
+
+    def add_place(self, place):
+        """Adds a place to the list of places that have this amenity."""
+        if place not in self.places:
+            self.places.append(place)
+            place.amenities.append(self)
+
+        def list_places(self):
+            """Returns a list of places that have this amenity."""
+            return self.places
 
         def __repr__(self):
             return f"<Amenity {self.name}>"

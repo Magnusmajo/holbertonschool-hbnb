@@ -3,6 +3,7 @@ from app.models.place import Place
 from app.models.review import Review
 from app.models.amenity import Amenity
 from app.persistence.repository import InMemoryRepository
+from jsonschema import validate, ValidationError
 
 class HBnBFacade:
     def __init__(self):
@@ -63,8 +64,16 @@ class HBnBFacade:
         """
         return self.place_repo.get(Place, place_id)
 
+    def get_all_places(self):
+    # Placeholder for logic to retrieve all places
+        return self.place_repo.get_all(Place)
+
+    def update_place(self, place_id, place_data):
+        # Placeholder for logic to update a place
+        return self.place_repo.update(Place, place_id, place_data)
+
     # Placeholder method for creating a review
-    def create_review(self, review_data):
+    def add_review_to_place(self, review_data):
         """
         Creates a review for a given user and place.
 
@@ -93,27 +102,22 @@ class HBnBFacade:
 
     def get_all_reviews(self):
         # Placeholder for logic to retrieve all reviews
-        pass
+        return self.review_repo.get_all(Review)
 
     def get_reviews_by_place(self, place_id):
         # Placeholder for logic to retrieve all reviews for a specific place
-        pass
+        place = self.get_place(place_id)
+        if place:
+            return place.list_reviews()
+        else: raise ValueError("Place not found")
 
     def update_review(self, review_id, review_data):
         # Placeholder for logic to update a review
-        pass
+        return self.review_repo.update(Review, review_id, review_data)
 
     def delete_review(self, review_id):
         # Placeholder for logic to delete a review
-        pass
-
-    def get_all_places(self):
-        # Placeholder for logic to retrieve all places
-        pass
-
-    def update_place(self, place_id, place_data):
-        # Placeholder for logic to update a place
-        pass
+        return self.review_repo.delete(Review, review_id)
 
     # Placeholder method for creating an amenity
     def create_amenity(self, amenity_data):
@@ -142,7 +146,10 @@ class HBnBFacade:
     # Example method for validating data
     def validate_data(self, data, schema):
         # Placeholder for validation logic
-        pass
+        try:
+            validate(instance=data, schema=schema)
+        except ValidationError as e:
+            raise ValueError(f"Invalid data: {e.message}")
 
     # Example method for converting object to dict
     def object_to_dict(self, obj):

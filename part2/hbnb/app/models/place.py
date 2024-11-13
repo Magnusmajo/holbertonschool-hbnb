@@ -15,7 +15,7 @@ class Place(BaseModel):
             price (float): The price of the place.
             latitude (float): The latitude of the place.
             longitude (float): The longitude of the place.
-            owner (User ): The owner of the place.
+            owner (User): The owner of the place.
 
         Raises:
             ValueError: If any of the provided values are invalid.
@@ -28,6 +28,7 @@ class Place(BaseModel):
         self.longitude = longitude
         self.owner = owner
         self.reviews = []  # A list of reviews for the place.
+        self.amenities = []  # A list of amenities available at the place.
 
     def __repr__(self):
         """Returns a string representation of the Place instance."""
@@ -124,7 +125,7 @@ class Place(BaseModel):
         Sets the owner of the place.
 
         Args:
-            value (User ): The user instance to set as the owner.
+            value (User): The user instance to set as the owner.
 
         Raises:
             ValueError: If the provided value is not an instance of User.
@@ -133,7 +134,22 @@ class Place(BaseModel):
             raise ValueError("Owner must be a valid User instance.")
         self._owner = value
 
-def add_review(self, review):
-    """Adds a review to the place."""
-    self.reviews.append(review)
-    review.place = self  # Ensure the review knows which place it belongs to
+    def add_review(self, review):
+        """Adds a review to the place."""
+        self.reviews.append(review)
+        review.place = self  # Ensure the review knows which place it belongs to
+
+    def list_reviews(self):
+        """Returns a list of reviews for the place."""
+        return self.reviews
+
+    def add_amenity(self, amenity):
+        """Adds an amenity to the place."""
+        self.amenities.append(amenity)
+        amenity.places.append(self)  # Ensure the amenity knows which place it belongs to
+
+    def list_amenities(self):
+        """Returns a list of amenities available at the place."""
+        return self.amenities
+
+    def __repr__(self): return f"<Place {self.title}>"
