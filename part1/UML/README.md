@@ -34,4 +34,4 @@ Objetivo: Este diagrama de clases de HBNB muestra la organización y las conexio
 
 ##### Dependencias:
 
-**Clase Place ↔ Clase Amenities**: La clase Place se asocia con la clase Amenities, permitiendo que un lugar tenga varios servicios adicionales, como Wi-Fi, estacionamiento o piscina.
+- **Clase Place ↔ Clase Amenities**: La clase Place se asocia con la clase Amenities, permitiendo que un lugar tenga varios servicios adicionales, como Wi-Fi, estacionamiento o piscina.
