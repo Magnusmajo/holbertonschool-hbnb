@@ -7,18 +7,25 @@ class User(BaseModel):
 
     def __init__(self, first_name, last_name, email, is_admin=False):
         super().__init__()  # Call to BaseModel's constructor
-        self.first_name = self.validate_name(first_name, "First name")
-        self.last_name = self.validate_name(last_name, "Last name")
-        self.email = self.validate_email(email)
+        self.first_name = self.first_name
+        self.last_name = self.last_name
+        self.email = self,email
         self.is_admin = is_admin
         self.places = []  #It saves the places that the user has created
 
-    def validate_name(self, name, field_name):
-        if not name or len(name) > 50:
-            raise ValueError(f"{field_name} is required and must be at most 50 characters long.")
-        return name
+    def validate_firstname(self, first_name):
+        if not first_name or len(first_name) > 50:
+            raise ValueError("First name is required and must be at most 50 characters long.")
+        return first_name
+
+    def validate_lastname(self, last_name):
+        if not last_name or len(last_name) > 50:
+            raise ValueError("Last name is required and must be at most 50 characters long.")
+        return last_name
 
     def validate_email(self, email):
+        if not email:
+            raise ValueError("Error, email is required.")
         if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
             raise ValueError("Invalid email format.")
         if email in User._emails:
@@ -32,4 +39,3 @@ class User(BaseModel):
 
     def __repr__(self):
         return f"<User  {self.first_name} {self.last_name}>"
-    
