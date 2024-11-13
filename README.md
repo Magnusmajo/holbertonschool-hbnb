@@ -244,13 +244,11 @@ except ValueError as e:
 ---
 
 This is a Holberton School Project  
-**Author**: Alexis Rodriguez Rodriguez  
-            Bryan Aleman  
+**Authors**:
+Alexis Rodriguez Rodriguez  
+Bryan Aleman  
+Matthew Hernandez  
 **Location**: Montevideo, Uruguay  
 **Date**: 2024
 
-**Project**: An Holberton School project
-Alexis Rodriguez  
-Bryan Aleman  
-Matthew Hernandez  
 © 2024-- All rights reserved --
