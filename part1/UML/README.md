@@ -60,3 +60,42 @@ Este diagrama de clases de HBNB representa la estructura y las relaciones entre 
   - `User` ↔ `Place`: Un `User` puede crear múltiples `Place`, pero cada `Place` pertenece a un solo `User`.
   - `Place` ↔ `Review`: Un `Place` puede tener múltiples `Review`, y cada `Review` está asociada a un solo `Place`.
   - `Place` ↔ `Amenity`: Un `Place` puede tener varios `Amenity`, y un `Amenity` puede estar asociado a varios `Place`.
+
+
+
+  # Diagrama de Capas del Sistema
+
+Este diagrama muestra la arquitectura del sistema dividiéndolo en tres capas principales: Capa de Presentación, Capa de Lógica de Negocio, y Capa de Persistencia. Cada una de estas capas tiene responsabilidades específicas y se comunica con las demás a través de interfaces definidas.
+
+## Descripción de las Capas
+
+### 1. Capa de Presentación (Presentation Layer)
+- **Descripción**: Es la capa encargada de la interacción con el usuario. Proporciona los elementos visuales y los puntos de acceso que permiten a los usuarios interactuar con el sistema.
+- **Componentes**:
+  - **User Interface (Interfaz de Usuario)**: Maneja la presentación de la información y la interacción directa con el usuario.
+  - **API Endpoints**: Expone los endpoints de la API que permiten que otras aplicaciones o servicios interactúen con el sistema a través de solicitudes HTTP.
+- **Relación**: La Capa de Presentación tiene acceso a la Capa de Lógica de Negocio, lo que permite que las interacciones de los usuarios se traduzcan en operaciones dentro de la lógica de negocio.
+
+### 2. Capa de Lógica de Negocio (Business Logic Layer)
+- **Descripción**: Es la capa central del sistema donde se implementa la lógica de negocio. Esta capa actúa como un intermediario entre la capa de presentación y la capa de persistencia, gestionando las operaciones principales del sistema.
+- **Componentes**:
+  - **Facade Pattern (Patrón de Fachada)**: Sirve como interfaz simplificada para la interacción con la lógica de negocio. Facilita el acceso a las funcionalidades de negocio sin exponer la complejidad interna.
+  - **Core Logic (Lógica Central)**: Contiene la lógica y reglas de negocio del sistema. Aquí se procesan y ejecutan las operaciones principales que siguen las reglas definidas por la empresa.
+  - **Business Entities (Entidades de Negocio)**: Representa los objetos principales que intervienen en la lógica de negocio, como usuarios, lugares, reseñas, y amenidades. Estas entidades encapsulan los atributos y comportamientos necesarios para el negocio.
+- **Relación**: 
+  - La Capa de Lógica de Negocio se comunica con la Capa de Persistencia para almacenar o recuperar datos.
+  - El **Patrón de Fachada** accede tanto a la **Lógica Central** como a las **Entidades de Negocio** para proporcionar una interfaz simplificada hacia la lógica del sistema.
+
+### 3. Capa de Persistencia (Persistence Layer)
+- **Descripción**: Esta capa se encarga del almacenamiento de datos en el sistema. Asegura que los datos persistan y puedan ser recuperados cuando sea necesario.
+- **Componentes**:
+  - **Database Storage (Almacenamiento de Base de Datos)**: Es el componente responsable de la persistencia de datos. Puede estar compuesto por bases de datos relacionales, no relacionales, o cualquier sistema de almacenamiento que permita guardar la información estructurada del sistema.
+- **Relación**: La Capa de Persistencia es accedida por la Capa de Lógica de Negocio para realizar operaciones de almacenamiento y recuperación de datos. No interactúa directamente con la Capa de Presentación.
+
+## Flujo de Interacción Entre Capas
+
+1. **Interacción del Usuario**: Los usuarios interactúan con el sistema a través de la **Interfaz de Usuario** en la Capa de Presentación.
+2. **Acceso a la Lógica de Negocio**: Las solicitudes del usuario son enviadas a través de los **API Endpoints** a la Capa de Lógica de Negocio, donde el **Patrón de Fachada** gestiona la interacción.
+3. **Procesamiento de la Lógica Central**: El **Patrón de Fachada** delega las solicitudes a la **Lógica Central** y utiliza las **Entidades de Negocio** para procesar las operaciones.
+4. **Acceso a la Persistencia**: La Capa de Lógica de Negocio se comunica con la Capa de Persistencia para almacenar o recuperar datos según las operaciones realizadas.
+5. **Respuesta al Usuario**: Los resultados son enviados de vuelta a la Capa de Presentación, donde se muestran al usuario a través de la **Interfaz de Usuario**.
