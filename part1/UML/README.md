@@ -1,37 +1,62 @@
-# Documentacion de diagramas:
+# Diagrama de Clases de HBNB
 
-## Diagrama de clases 
+## Descripción General
 
-### Descripción General
-Objetivo: Este diagrama de clases de HBNB muestra la organización y las conexiones entre las clases en la plataforma. Describe los elementos que participan en las interacciones de los usuarios, la administración de propiedades y los procedimientos de reseñas.
+Este diagrama de clases de HBNB representa la estructura y las relaciones entre las clases principales en la plataforma. Expone los elementos que intervienen en las interacciones de los usuarios, la gestión de propiedades y los procesos de reseñas.
 
-### clases:
-#### lista de clases:
+## Clases Principales y sus Relaciones
 
-##### Users
-- atributos: ("firstName", "lastName", "email", "password" and "isAdmin")
-- metodos: ("register", "login", "update" and "delete")
+### Clase `Identifier`
+- **Descripción**: Esta clase actúa como base para las clases `User`, `Place`, y `Review`, implementando un identificador único (`UUID4`) y registros de tiempo de creación y actualización.
+- **Herencia**: `User`, `Place`, y `Review` heredan de `Identifier`, por lo que cada instancia tiene un identificador único y marcas de tiempo de creación y actualización.
 
-##### Review
-- atributos: ("rating", "comment", "place" and "user")
-- metodos: ("create", "update", "delete" and "listByPlace")
+### Clase `User`
+- **Atributos**:
+  - `firstName`: Nombre del usuario.
+  - `lastName`: Apellido del usuario.
+  - `email`: Dirección de correo electrónico del usuario.
+  - `password`: Contraseña del usuario.
+  - `isAdmin`: Indica si el usuario tiene permisos administrativos.
+- **Relaciones**:
+  - **User ↔ Review**: Un `User` puede tener múltiples `Review`, lo que indica que un usuario puede dejar varias reseñas en diferentes lugares.
+  - **User ↔ Place**: Un `User` puede crear múltiples `Place`, mientras que cada `Place` tiene un solo propietario `User`.
 
-##### Place
-- atributos: ("title", "description", "price", "latitude", "owner" and "amenities")
-- metodos: ("create", "update", "delete" and "list")
+### Clase `Place`
+- **Atributos**:
+  - `title`: Título del lugar.
+  - `description`: Descripción del lugar.
+  - `price`: Precio del lugar.
+  - `latitude`: Latitud del lugar.
+  - `longitude`: Longitud del lugar.
+  - `owner`: Referencia al `User` propietario del lugar.
+  - `amenities`: Lista de `Amenity` asociadas al lugar.
+- **Relaciones**:
+  - **Place ↔ User**: Cada `Place` está vinculado a un `User` como su propietario.
+  - **Place ↔ Review**: Un `Place` puede tener múltiples `Review`, pero cada `Review` está asociada a un solo `Place`.
+  - **Place ↔ Amenity**: Un `Place` puede tener varias `Amenity`, representando los servicios disponibles en ese lugar.
 
-##### Amenity
-- atributos: ("name" and "description")
-- metodos: ("create", "update", "delete" and "list")
+### Clase `Review`
+- **Atributos**:
+  - `rating`: Calificación del lugar.
+  - `comment`: Comentario sobre el lugar.
+  - `place`: Referencia al `Place` que está siendo reseñado.
+  - `user`: Referencia al `User` que realizó la reseña.
+- **Relaciones**:
+  - **Review ↔ User**: Cada `Review` tiene un autor (`User`), indicando que un usuario puede escribir múltiples reseñas.
+  - **Review ↔ Place**: Cada `Review` está dirigida a un solo `Place`.
 
+### Clase `Amenity`
+- **Atributos**:
+  - `name`: Nombre de la amenidad.
+  - `description`: Descripción de la amenidad.
+- **Relaciones**:
+  - **Amenity ↔ Place**: Un `Amenity` puede estar asociado con múltiples `Place`, permitiendo que un lugar tenga diversos servicios y que un servicio esté disponible en varios lugares.
 
-## Relaciones 
-- **Clase User ↔ Clase Review**: La clase User mantiene una referencia a la clase Review, lo que sugiere que un usuario puede realizar múltiples reseñas para distintos lugares.
+## Resumen de las Relaciones
 
-- **Clase User ↔ Clase Place**: La clase Place está vinculada con la clase User, ya que cada lugar debe ser creado por un usuario.
-
-- **Clase Place ↔ Clase Review**: La clase Review hace referencia a la clase Place, indicando que cada reseña corresponde a un lugar específico.
-
-##### Dependencias:
-
-- **Clase Place ↔ Clase Amenities**: La clase Place se asocia con la clase Amenities, permitiendo que un lugar tenga varios servicios adicionales, como Wi-Fi, estacionamiento o piscina.
+- **Herencia**: La clase `Identifier` es la base de `User`, `Place`, y `Review`.
+- **Asociaciones**:
+  - `User` ↔ `Review`: Un `User` puede dejar múltiples reseñas (`Review`).
+  - `User` ↔ `Place`: Un `User` puede crear múltiples `Place`, pero cada `Place` pertenece a un solo `User`.
+  - `Place` ↔ `Review`: Un `Place` puede tener múltiples `Review`, y cada `Review` está asociada a un solo `Place`.
+  - `Place` ↔ `Amenity`: Un `Place` puede tener varios `Amenity`, y un `Amenity` puede estar asociado a varios `Place`.
