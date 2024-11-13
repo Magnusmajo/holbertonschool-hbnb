@@ -15,7 +15,7 @@ class Review(BaseModel):
     Methods:
         __repr__(): Returns a string representation of the review.
     """
-    def __init__(self, text, rating, place, user):
+    def __init__(self, text=str, rating=int, place=Place, user=User):
         super().__init__()
         self.text = text
         self.rating = rating
@@ -37,7 +37,7 @@ class Review(BaseModel):
     @text.setter
     def text(self, value):
         if not value:
-            raise ValueError("Review text is required")
+            raise ValueError("Error: Review text is required")
         self._text = value
 
     @property
@@ -47,7 +47,7 @@ class Review(BaseModel):
     @rating.setter
     def rating(self, value):
         if not (1 <= value <= 5):
-            raise ValueError("Rating must be between 1 and 5")
+            raise ValueError("Error: Rating must be between 1 and 5")
         self._rating = value
 
     @property
@@ -57,7 +57,7 @@ class Review(BaseModel):
     @place.setter
     def place(self, value):
         if not isinstance(value, Place):
-            raise ValueError("Invalid place")
+            raise ValueError("Error: Invalid place")
         self._place = value
 
     @property
@@ -67,7 +67,7 @@ class Review(BaseModel):
     @user.setter
     def user(self, value):
         if not isinstance(value, User):
-            raise ValueError("Invalid user")
+            raise ValueError("Error: Invalid user")
         self._user = value
 
     @property

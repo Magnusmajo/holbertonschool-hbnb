@@ -16,9 +16,6 @@ class Amenity(BaseModel):
             raise ValueError("Name must be provided and be less than 50 characters")
         self._name = value
 
-    def __repr__(self):
-        return f"<Amenity name={self.name}>"
-
     def save(self):
         super().save()  # Call the save method from BaseModel
 
