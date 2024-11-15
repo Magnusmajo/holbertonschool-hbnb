@@ -40,6 +40,10 @@ class HBnBFacade:
     def get_user_by_email(self, email):
         return self.user_repo.get_by_attribute('email', email)
 
+    def update_user(self, user_id: str, user_data: dict):
+        """Updates a user by ID"""
+        return self.place_repo.update(User, user_id, user_data)
+
     # Placeholder method for creating a place
     def create_place(self, place_data):
         """
@@ -65,7 +69,7 @@ class HBnBFacade:
         return self.place_repo.get(Place, place_id)
 
     def get_all_places(self):
-    # Placeholder for logic to retrieve all places
+        # Placeholder for logic to retrieve all places
         return self.place_repo.get_all(Place)
 
     def update_place(self, place_id, place_data):
@@ -109,7 +113,8 @@ class HBnBFacade:
         place = self.get_place(place_id)
         if place:
             return place.list_reviews()
-        else: raise ValueError("Place not found")
+        else:
+            raise ValueError("Place not found")
 
     def update_review(self, review_id, review_data):
         # Placeholder for logic to update a review
