@@ -24,7 +24,6 @@ class HBnBFacade:
         Returns:
             User: The new created user object.
         """
-        self.user_repo = InMemoryRepository()
         user = User(**user_data)
         self.user_repo.add(user)
         return user
