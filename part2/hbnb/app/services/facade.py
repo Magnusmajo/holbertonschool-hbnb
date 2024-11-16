@@ -72,7 +72,7 @@ class HBnBFacade:
         Retrieve a place by its ID.
         Same way than get_user.
         """
-        return self.place_repo.get(Place, place_id)
+        return self.place_repo.get(place_id)
 
     def get_all_places(self):
         # Placeholder for logic to retrieve all places
@@ -108,11 +108,11 @@ class HBnBFacade:
         Retrieve a review by its ID.
         Same way than get_user.
         """
-        return self.review_repo.get(Review, review_id)
+        return self.review_repo.get(review_id)
 
     def get_all_reviews(self):
         # Placeholder for logic to retrieve all reviews
-        return self.review_repo.get_all(Review)
+        return self.review_repo.get_all()
 
     def get_reviews_by_place(self, place_id):
         # Placeholder for logic to retrieve all reviews for a specific place
@@ -124,11 +124,11 @@ class HBnBFacade:
 
     def update_review(self, review_id, review_data):
         # Placeholder for logic to update a review
-        return self.review_repo.update(Review, review_id, review_data)
+        return self.review_repo.update(review_id, review_data)
 
     def delete_review(self, review_id):
         # Placeholder for logic to delete a review
-        return self.review_repo.delete(Review, review_id)
+        return self.review_repo.delete(review_id)
 
     # Placeholder method for creating an amenity
     def create_amenity(self, amenity_data):
@@ -152,15 +152,15 @@ class HBnBFacade:
 
         Same way than get_user.
         """
-        return self.amenity_repo.get(Amenity, amenity_id)
+        return self.amenity_repo.get(amenity_id)
 
     def get_all_amenities(self):
         # Placeholder for logic to retrieve all amenities
-        return self.amenity_repo.get_all(Amenity)
+        return self.amenity_repo.get_all()
 
     def update_amenity(self, amenity_id, amenity_data):
         # Placeholder for logic to update an amenity
-        return self.amenity_repo.update(Amenity, amenity_id, amenity_data)
+        return self.amenity_repo.update(amenity_id, amenity_data)
 
     # Example method for validating data
     def validate_data(self, data, schema):
