@@ -13,24 +13,22 @@ class User(BaseModel):
         self.is_admin = is_admin
         self.places = []  #It saves the places that the user has created
 
+    @staticmethod
     def validate_firstname(self, first_name):
         if not first_name or len(first_name) > 50:
             raise ValueError("First name is required and must be at most 50 characters long.")
         return first_name
 
+    @staticmethod
     def validate_lastname(self, last_name):
         if not last_name or len(last_name) > 50:
             raise ValueError("Last name is required and must be at most 50 characters long.")
         return last_name
 
+    @staticmethod
     def validate_email(self, email):
-        if not email:
-            raise ValueError("Error, email is required.")
         if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            raise ValueError("Invalid email format.")
-        if email in User._emails:
-            raise ValueError("Email must be unique.")
-        User.__emails.add(email)
+            raise ValueError("Invalid email format: Invalid email format")
         return email
 
     def add_place(self, place):

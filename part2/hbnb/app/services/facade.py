@@ -19,12 +19,26 @@ class HBnBFacade:
 
         Args:
             user_data (dict): A dictionary containing user attributes.
-            ** Unpacking arguments to pass the dictionary as keyword arguments.
 
         Returns:
             User: The new created user object.
         """
-        user = User(**user_data)
+        # Validar los datos del usuario utilizando los métodos de validación de la clase User
+        first_name = User.validate_firstname(User, user_data['first_name'])
+        last_name = User.validate_lastname(User, user_data['last_name'])
+        try:
+            email = User.validate_email(User, user_data['email'])
+        except ValueError as e:
+            raise ValueError(f"error: Invalid email format: {e}")
+
+        # Verificar si el usuario ya existe
+        users = self.get_all_users()
+        for i in users:
+            if i.email == email:
+                raise ValueError("error: User already exists")
+
+        # Crear el nuevo usuario
+        user = User(first_name=first_name, last_name=last_name, email=email, is_admin=user_data.get('is_admin', False))
         self.user_repo.add(user)
         return user
 
@@ -48,6 +62,19 @@ class HBnBFacade:
 
     def update_user(self, user_id: str, user_data: dict):
         """Updates a user by ID"""
+        user = User.get(user_id)
+        if not user:
+            raise ValueError(f"User not found")
+        
+        if 'first_name' in user_data:
+            user.first_name = user_data['first_name']
+        if 'last_name' in user_data:
+            user.last_name = user_data['last_name']
+        if 'email' in user_data:
+            user.email = user_data['email']
+        if 'is_admin' in user_data:
+            user.is_admin = user_data['is_admin']
+
         return self.user_repo.update(user_id, user_data)
 
     # Placeholder method for creating a place
