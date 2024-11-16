@@ -20,7 +20,7 @@ class AmenityList(Resource):
             amenity = facade.create_amenity(data)  # Calling the facade method
             return {'id': amenity.id, 'name': amenity.name}, 201  # Return the created amenity
         except Exception as e:
-            return {'message': str(e)}, 400  # Handle errors
+            return {'error': str(e)}, 400  # Handle errors
 
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self):
