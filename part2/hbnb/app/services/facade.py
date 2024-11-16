@@ -25,6 +25,7 @@ class HBnBFacade:
             User: The new created user object.
         """
         user = User(**user_data)
+        validated_user = self.validate_data(user.__dict__, User.schema)
         self.user_repo.add(user)
         return user
 
@@ -48,7 +49,7 @@ class HBnBFacade:
 
     def update_user(self, user_id: str, user_data: dict):
         """Updates a user by ID"""
-        return self.user_repo.update(User, user_id, user_data)
+        return self.user_repo.update(user_id, user_data)
 
     # Placeholder method for creating a place
     def create_place(self, place_data):
