@@ -39,7 +39,7 @@ class AmenityResource(Resource):
         amenity = facade.get_amenity(amenity_id)  # Call the facade method
         if amenity:
             return {'id': amenity.id, 'name': amenity.name}, 200  # Return the amenity
-        return {'message': 'Amenity not found'}, 404  # Handle not found
+        return {'error': 'Amenity not found'}, 404  # Handle not found
 
     @api.expect(amenity_model)
     @api.response(200, 'Amenity updated successfully')
@@ -51,4 +51,4 @@ class AmenityResource(Resource):
         amenity = facade.update_amenity(amenity_id, data)  # Call the facade method
         if amenity:
             return {'message': 'Amenity updated successfully'}, 200  # Return success message
-        return {'message': 'Amenity not found'}, 404  # Handle not found
+        return {'error': 'Amenity not found'}, 404  # Handle not found
