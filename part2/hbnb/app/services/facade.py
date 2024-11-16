@@ -25,7 +25,6 @@ class HBnBFacade:
             User: The new created user object.
         """
         user = User(**user_data)
-        validated_user = self.validate_data(user.__dict__, User.schema)
         self.user_repo.add(user)
         return user
 
@@ -154,6 +153,14 @@ class HBnBFacade:
         Same way than get_user.
         """
         return self.amenity_repo.get(Amenity, amenity_id)
+
+    def get_all_amenities(self):
+        # Placeholder for logic to retrieve all amenities
+        return self.amenity_repo.get_all(Amenity)
+
+    def update_amenity(self, amenity_id, amenity_data):
+        # Placeholder for logic to update an amenity
+        return self.amenity_repo.update(Amenity, amenity_id, amenity_data)
 
     # Example method for validating data
     def validate_data(self, data, schema):
