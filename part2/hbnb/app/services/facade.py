@@ -161,7 +161,7 @@ class HBnBFacade:
         return self.place_repo.update(place_id, place_data)
 
     # Placeholder method for creating a review
-    def add_review_to_place(self, review_data):
+    def create_review(self, review_data):
         """
         Creates a review for a given user and place.
 
@@ -172,14 +172,12 @@ class HBnBFacade:
         """
         user = self.get_user(review_data['user_id'])
         place = self.get_place(review_data['place_id'])
-        if user and place:
-            review_data['user'] = user
-            review_data['place'] = place
-            review = Review(**review_data)
-            self.review_repo.add(review)
-            return review
-        else:
+        if not user or not place:
             raise ValueError("User or place not found")
+        
+        review = Review(text=review_data['text'], rating=review_data['rating'], user=user, place=place)
+        self.review_repo.add(review)
+        return self.object_to_dict(review)
 
     def get_review(self, review_id):
         """
