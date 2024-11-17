@@ -54,10 +54,15 @@ class HBnBFacade:
         """
         Retrieve a user by user ID.
         """
-        return self.user_repo.get(user_id)
+        user = self.user_repo.get(user_id)
+        if user:
+            return user
+        else:
+            raise ValueError("User not found")
 
     # Placeholder method for fetching a user by email
     def get_user_by_email(self, email):
+        """ Retrieve a user by email. """
         return self.user_repo.get_by_attribute('email', email)
 
     def update_user(self, user_id: str, user_data: dict):

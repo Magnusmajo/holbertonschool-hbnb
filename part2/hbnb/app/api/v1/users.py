@@ -41,10 +41,11 @@ class UserResource(Resource):
     @api.response(404, 'User  not found')
     def get(self, user_id):
         """Get user details by ID"""
-        user = facade.get_user(user_id)
-        if not user:
+        try:
+            user = facade.get_user(user_id)
+            return {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}, 200
+        except ValueError:
             return {'error': 'User  not found'}, 404
-        return {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}, 200
 
     @api.expect(user_model, validate=True)
     @api.response(200, 'User  successfully updated')
@@ -65,7 +66,8 @@ class UserResource(Resource):
     @api.response(404, 'User not found')
     def get(self, email):
         """Get user details by email"""
-        user = facade.get_user_by_email(email)
-        if not user:
-            return {'error': 'User not found'}, 404
-        return {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}, 200
+        try:
+            user = facade.get_user_by_email(email)
+            return {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}, 200
+        except ValueError:
+            return {'error': 'User  not found'}, 404
