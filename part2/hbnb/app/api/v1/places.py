@@ -43,14 +43,21 @@ class PlaceList(Resource):
     @api.response(400, 'Invalid input data')
     def post(self):
         """Register a new place"""
-        # Placeholder for the logic to register a new place
-        pass
+        data = api.payload
+        try:
+            new_place = facade.create_place(data)
+            return new_place, 201
+        except ValueError as e:
+            api.abort(400, str(e))
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Retrieve a list of all places"""
-        # Placeholder for logic to return a list of all places
-        pass
+        try:
+            places = facade.get_all_places()
+            return places, 200
+        except Exception as e:
+            api.abort(500, str(e))
 
 @api.route('/<place_id>')
 class PlaceResource(Resource):
@@ -58,8 +65,13 @@ class PlaceResource(Resource):
     @api.response(404, 'Place not found')
     def get(self, place_id):
         """Get place details by ID"""
-        # Placeholder for the logic to retrieve a place by ID, including associated owner and amenities
-        pass
+        try:
+            place = facade.get_place_by_id(place_id)
+            if not place:
+                api.abort(404, 'Place not found')
+            return place, 200
+        except Exception as e:
+            api.abort(500, str(e))
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
@@ -67,5 +79,13 @@ class PlaceResource(Resource):
     @api.response(400, 'Invalid input data')
     def put(self, place_id):
         """Update a place's information"""
-        # Placeholder for the logic to update a place by ID
-        pass
+        data = api.payload
+        try:
+            updated_place = facade.update_place(place_id, data)
+            if not updated_place:
+                api.abort(404, 'Place not found')
+            return updated_place, 200
+        except ValueError as e:
+            api.abort(400, str(e))
+        except Exception as e:
+            api.abort(500, str(e))

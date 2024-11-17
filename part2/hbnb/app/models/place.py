@@ -5,11 +5,12 @@ from app.models.user import User
 class Place(BaseModel):
     """Represents a place with a title, description, price, location, and owner."""
 
-    def __init__(self, title=str, description=None, price=float, latitude=float, longitude=float, owner=User):
+    def __init__(self, title: str, description: str=None, price: float=0.0, latitude: float=0.0, longitude: float=0.0, owner: User=None):
         """
         Initializes a new Place instance.
 
         Args:
+        Default Values: Set default values for description, price, latitude, longitude, and owner to ensure that they can be omitted when creating a Place instance.
             title (str): The title of the place.
             description (str): A description of the place.
             price (float): The price of the place.
@@ -29,10 +30,6 @@ class Place(BaseModel):
         self.owner = owner
         self.reviews = []  # A list of reviews for the place.
         self.amenities = []  # A list of amenities available at the place.
-
-    def __repr__(self):
-        """Returns a string representation of the Place instance."""
-        return f"<Place {self.title}>"
 
     @property
     def title(self):

@@ -77,6 +77,38 @@ class HBnBFacade:
 
         return self.user_repo.update(user_id, user_data)
 
+        # Placeholder method for creating an amenity
+    def create_amenity(self, amenity_data):
+        """
+        Create a new amenity and save it to the repository.
+
+        Args:
+            amenity_data (dict): A dictionary containing the data for the new amenity.
+
+        Returns:
+            Amenity: The newly created amenity object.
+        """
+        amenity = Amenity(**amenity_data)
+        self.amenity_repo.add(amenity)
+        return amenity
+
+    # Placeholder method for fetching an amenity by ID
+    def get_amenity(self, amenity_id):
+        """
+        Retrieve an amenity by its ID.
+
+        Same way than get_user.
+        """
+        return self.amenity_repo.get(amenity_id)
+
+    def get_all_amenities(self):
+        # Placeholder for logic to retrieve all amenities
+        return self.amenity_repo.get_all()
+
+    def update_amenity(self, amenity_id, amenity_data):
+        # Placeholder for logic to update an amenity
+        return self.amenity_repo.update(amenity_id, amenity_data)
+
     # Placeholder method for creating a place
     def create_place(self, place_data):
         """
@@ -86,12 +118,15 @@ class HBnBFacade:
             ValueError: If the owner_id is not a valid user.
         """
         owner = self.get_user(place_data['owner_id'])
-        if owner:
+        if not owner:
+            raise ValueError('Invalid owner_id')
+        place_data['owner'] = owner
+        try:
             place = Place(**place_data)
             self.place_repo.add(place)
             return place
-        else:
-            raise ValueError("Owner not found")
+        except ValidationError as e:
+            raise ValueError(f"Invalid place data: {e}")
 
     # Placeholder method for fetching a place by ID
     def get_place(self, place_id):
@@ -99,15 +134,31 @@ class HBnBFacade:
         Retrieve a place by its ID.
         Same way than get_user.
         """
-        return self.place_repo.get(place_id)
+        place = self.place_repo.get(place_id)
+        if place:
+            owner = self.get_user(place.owner_id)
+            amenities = self.amenity_repo.get_all()
+            return{
+                'place': place,
+                'owner': owner,
+                'amenities': amenities
+            }
+        else:
+            raise ValueError("Place not found")
 
     def get_all_places(self):
         # Placeholder for logic to retrieve all places
-        return self.place_repo.get_all(Place)
+        place = self.place_repo.get_all()
+        return [{'place': place, 'owner': self.get_user(place.owner_id)} for place in place]
 
     def update_place(self, place_id, place_data):
         # Placeholder for logic to update a place
-        return self.place_repo.update(Place, place_id, place_data)
+        place = self.get_place(place_id)
+        if not place:
+            raise ValueError("Place not found")
+        for key, value in place_data.items():
+            setattr(place, key, value)
+        return self.place_repo.update(place_id, place_data)
 
     # Placeholder method for creating a review
     def add_review_to_place(self, review_data):
@@ -156,38 +207,6 @@ class HBnBFacade:
     def delete_review(self, review_id):
         # Placeholder for logic to delete a review
         return self.review_repo.delete(review_id)
-
-    # Placeholder method for creating an amenity
-    def create_amenity(self, amenity_data):
-        """
-        Create a new amenity and save it to the repository.
-
-        Args:
-            amenity_data (dict): A dictionary containing the data for the new amenity.
-
-        Returns:
-            Amenity: The newly created amenity object.
-        """
-        amenity = Amenity(**amenity_data)
-        self.amenity_repo.add(amenity)
-        return amenity
-
-    # Placeholder method for fetching an amenity by ID
-    def get_amenity(self, amenity_id):
-        """
-        Retrieve an amenity by its ID.
-
-        Same way than get_user.
-        """
-        return self.amenity_repo.get(amenity_id)
-
-    def get_all_amenities(self):
-        # Placeholder for logic to retrieve all amenities
-        return self.amenity_repo.get_all()
-
-    def update_amenity(self, amenity_id, amenity_data):
-        # Placeholder for logic to update an amenity
-        return self.amenity_repo.update(amenity_id, amenity_data)
 
     # Example method for validating data
     def validate_data(self, data, schema):
