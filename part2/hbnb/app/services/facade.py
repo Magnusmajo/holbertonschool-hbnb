@@ -125,13 +125,17 @@ class HBnBFacade:
         owner = self.get_user(place_data['owner_id'])
         if not owner:
             raise ValueError('Invalid owner_id')
-        place_data['owner'] = owner
+        owner = self.get_user(place_data['owner_id'])
+
+        place_data.pop('owner_id', None)  # Remove owner_id from place_data if exist
+        place_data['owner'] = owner # Add owner object to place_data
+
         try:
             place = Place(**place_data)
             self.place_repo.add(place)
             return place
-        except ValidationError as e:
-            raise ValueError(f"Invalid place data: {e}")
+        except ValueError as e:
+            raise ValueError(f"Invalid place data: {e}") from e
 
     # Placeholder method for fetching a place by ID
     def get_place(self, place_id):
@@ -221,5 +225,18 @@ class HBnBFacade:
 
     # Example method for converting object to dict
     def object_to_dict(self, obj):
-        # Placeholder for object conversion logic
-        return obj.__dict__
+        """
+        Convert an object to a dictionary representation.
+
+        Args:
+            obj: The object to convert.
+
+        Returns:
+            dict: A dictionary representation of the object.
+        """
+        if isinstance(obj, list):
+            return [self.object_to_dict(item) for item in obj]
+        elif isinstance(obj, dict):
+            return {key: self.object_to_dict(value) for key, value in obj.items()}
+        else:
+            return obj

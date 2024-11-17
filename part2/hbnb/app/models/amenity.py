@@ -31,3 +31,12 @@ class Amenity(BaseModel):
 
         def __repr__(self):
             return f"<Amenity {self.name}>"
+        
+        def to_dict(self):
+            """Returns a dictionary representation of the Amenity instance."""
+            amenity_dict = super().to_dict()
+            amenity_dict.update({
+                'name': self.name,
+                'places': [place.to_dict() for place in self.places]
+            })
+            return amenity_dict

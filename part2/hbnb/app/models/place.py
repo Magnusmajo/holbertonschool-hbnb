@@ -150,3 +150,16 @@ class Place(BaseModel):
         return self.amenities
 
     def __repr__(self): return f"<Place {self.title}>"
+
+    def to_dict(self):
+        """Convert the Place instance to a dictionary for JSON serialization."""
+        return {
+            'title': self.title,
+            'description': self.description,
+            'price': self.price,
+            'latitude': self.latitude,
+            'longitude': self.longitude,
+            'owner': self.owner.username if self.owner else None,
+            'reviews': [review.to_dict() for review in self.reviews],
+            'amenities': [amenity.to_dict() for amenity in self.amenities],
+        }
