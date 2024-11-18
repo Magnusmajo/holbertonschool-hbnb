@@ -11,29 +11,34 @@ class User(BaseModel):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
+
+        if email in User.__emails:
+            raise ValueError("Email already registered.")
+        User.__emails.add(email)
+
         self.is_admin = is_admin
-        self.password = password
         self.places = []  #It saves the places that the user has created
+        self.password = password
 
         if password:
             self.hash_password(password)
 
     @staticmethod
-    def validate_firstname(self, first_name):
+    def validate_firstname(first_name):
         if not first_name or len(first_name) > 50:
             raise ValueError("First name is required and must be at most 50 characters long.")
         return first_name
 
     @staticmethod
-    def validate_lastname(self, last_name):
+    def validate_lastname(last_name):
         if not last_name or len(last_name) > 50:
             raise ValueError("Last name is required and must be at most 50 characters long.")
         return last_name
 
     @staticmethod
-    def validate_email(self, email):
+    def validate_email(email):
         if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            raise ValueError("Invalid email format: Invalid email format")
+            raise ValueError("error: Invalid email format")
         return email
     
     def hash_password(self, password):

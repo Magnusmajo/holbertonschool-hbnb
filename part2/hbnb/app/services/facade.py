@@ -30,6 +30,8 @@ class HBnBFacade:
             email = User.validate_email(User, user_data['email'])
         except ValueError as e:
             raise ValueError(f"error: Invalid email format: {e}")
+        password = User.hash_password_password(User, user_data['password'])
+        
 
         # Verificar si el usuario ya existe
         users = self.get_all_users()
@@ -38,7 +40,7 @@ class HBnBFacade:
                 raise ValueError("error: User already exists")
 
         # Crear el nuevo usuario
-        user = User(first_name=first_name, last_name=last_name, email=email, is_admin=user_data.get('is_admin', False))
+        user = User(first_name=first_name, last_name=last_name, email=email, password=password, is_admin=user_data.get('is_admin', False))
         self.user_repo.add(user)
         return user
 
