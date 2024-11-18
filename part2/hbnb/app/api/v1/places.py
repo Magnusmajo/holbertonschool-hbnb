@@ -1,4 +1,5 @@
 from flask_restx import Namespace, Resource, fields
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.services import facade
 
 api = Namespace('places', description='Place operations')
@@ -35,20 +36,24 @@ place_model = api.model('Place', {
     'amenities': fields.List(fields.Nested(amenity_model), description='List of amenities'),
     'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
 })
-
 @api.route('/')
 class PlaceList(Resource):
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
+    @jwt_required()
     def post(self):
         """Register a new place"""
+        current_user = get_jwt_identity()
         data = api.payload
+        data['owner_id'] = current_user  # Ensure the owner_id is set to the current user
         try:
             new_place = facade.create_place(data)
             return new_place, 201
         except ValueError as e:
             api.abort(400, str(e))
+        except Exception as e:
+            api.abort(500, str(e))
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
@@ -77,13 +82,20 @@ class PlaceResource(Resource):
     @api.response(200, 'Place updated successfully')
     @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
+    @api.response(403, 'Unauthorized action')
+    @jwt_required()
     def put(self, place_id):
         """Update a place's information"""
+        current_user = get_jwt_identity()
+        place = facade.get_place_by_id(place_id)
+        if not place:
+            api.abort(404, 'Place not found')
+        if place['owner_id'] != current_user:
+            api.abort(403, 'Unauthorized action')
+        
         data = api.payload
         try:
             updated_place = facade.update_place(place_id, data)
-            if not updated_place:
-                api.abort(404, 'Place not found')
             return updated_place, 200
         except ValueError as e:
             api.abort(400, str(e))
