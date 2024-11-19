@@ -30,7 +30,7 @@ class HBnBFacade:
             email = User.validate_email(user_data['email'])
         except ValueError as e:
             raise ValueError(f"error: Invalid email format: {e}")
-        # password = User.verify_password(User, user_data['password'])
+        # password = User.verify_password(user_data['password'])
         
 
         # Verificar si el usuario ya existe

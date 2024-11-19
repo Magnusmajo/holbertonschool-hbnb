@@ -13,7 +13,7 @@ user_model = api.model('User', {
     'first_name': fields.String(required=True, description='First name of the user'),
     'last_name': fields.String(required=True, description='Last name of the user'),
     'email': fields.String(required=True, description='Email of the user'),
-    'password': fields.String(required=True, description='Password for the user')
+    # 'password': fields.String(required=True, description='Password for the user')
 })
 
 @api.route('/')
@@ -34,8 +34,8 @@ class UserList(Resource):
         # Hash the password before storing it
         # user_data['password'] = facade.hash_password(user_data['password'])
 
-        new_user = facade.create_user(user_data)
-        return {'id': new_user.id, 'first_name': new_user.first_name, 'last_name': new_user.last_name, 'email': new_user.email, 'password': new_user.password}, 201
+        # new_user = facade.create_user(user_data)
+        # return {'id': new_user.id, 'first_name': new_user.first_name, 'last_name': new_user.last_name, 'email': new_user.email, 'password': new_user.password}, 201
 
     @api.response(200, 'Users retrieved successfully')
     def get(self):
@@ -112,4 +112,3 @@ class UserResource(Resource):
                 return {'error': 'Email is already in use'}, 400
 
         # Logic to update user details, including email and password
-        pass

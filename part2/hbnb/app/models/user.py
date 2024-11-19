@@ -19,7 +19,6 @@ class User(BaseModel):
             raise ValueError("Email already registered.")
         User.__emails.add(email)
 
-
         # if password:
         #     self.hash_password(password)
 
@@ -37,9 +36,10 @@ class User(BaseModel):
 
     @staticmethod
     def validate_email(email):
+        if not email:
+            raise ValueError("Email is required.")
         if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
             raise ValueError("error: Invalid email format")
-        return email
     
     # def hash_password(self, password):
     #     """Hashes the password before storing it."""
