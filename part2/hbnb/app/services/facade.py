@@ -124,14 +124,10 @@ class HBnBFacade:
         Raise:
             ValueError: If the owner_id is not a valid user.
         """
-        # owner = self.get_user(place_data['owner_id'])
-        # if not owner:
-        #     raise ValueError('Invalid owner_id')
-        place_data = {'title': 'string', 'description': 'string', 'price': 0, 'latitude': 0, 'longitude': 0, 'owner_id': '2147b500-d105-409b-b3d5-11579396a1d1'}
-        # place = Place(**place_data)
-        place = Place(title=place_data['title'], description=place_data['description'], price=place_data['price'], latitude=place_data['latitude'], longitude=place_data['longitude'], owner_id=place_data['owner_id'])
-        print(f'Flag 2 {place.owner_id}')
+        
+        place = Place(**place_data)
         self.place_repo.add(place)
+        return place
 
     # Placeholder method for fetching a place by ID
     def get_place(self, place_id):
