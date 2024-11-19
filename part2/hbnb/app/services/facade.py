@@ -26,14 +26,10 @@ class HBnBFacade:
         # Validar los datos del usuario utilizando los métodos de validación de la clase User
         first_name = User.validate_firstname(user_data['first_name'])
         last_name = User.validate_lastname(user_data['last_name'])
-        try:
-            email = User.validate_email(user_data['email'])
-        except ValueError as e:
-            raise ValueError(f"error: Invalid email format: {e}")
+        email = User.validate_email(user_data['email'])
         # password = User.verify_password(user_data['password'])
-        
 
-        # Verificar si el usuario ya existe
+        # Check if the user already exists
         users = self.get_all_users()
         for i in users:
             if i.email == email:
@@ -69,7 +65,7 @@ class HBnBFacade:
 
     def update_user(self, user_id: str, user_data: dict):
         """Updates a user by ID"""
-        user = User.get(user_id)
+        user = self.get_user(user_id)
         if not user:
             raise ValueError(f"User not found")
         
@@ -82,7 +78,7 @@ class HBnBFacade:
         if 'is_admin' in user_data:
             user.is_admin = user_data['is_admin']
 
-        return self.user_repo.update(user_id, user_data)
+        return self.user_repo.update(user_id, user)
 
         # Placeholder method for creating an amenity
     def create_amenity(self, amenity_data):
