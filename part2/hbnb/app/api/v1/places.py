@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity
+# from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.services import facade
 
 api = Namespace('places', description='Place operations')
@@ -17,6 +17,17 @@ user_model = api.model('PlaceUser', {
     'email': fields.String(description='Email of the owner')
 })
 
+# Define the place model for input validation and documentation
+place_model = api.model('Place', {
+    'title': fields.String(required=True, description='Title of the place'),
+    'description': fields.String(description='Description of the place'),
+    'price': fields.Float(required=True, description='Price per night'),
+    'latitude': fields.Float(required=True, description='Latitude of the place'),
+    'longitude': fields.Float(required=True, description='Longitude of the place'),
+    'owner_id': fields.String(required=True, description='ID of the owner')
+    # 'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
+})
+
 # Adding the review model
 review_model = api.model('PlaceReview', {
     'id': fields.String(description='Review ID'),
@@ -25,44 +36,34 @@ review_model = api.model('PlaceReview', {
     'user_id': fields.String(description='ID of the user')
 })
 
-place_model = api.model('Place', {
-    'title': fields.String(required=True, description='Title of the place'),
-    'description': fields.String(description='Description of the place'),
-    'price': fields.Float(required=True, description='Price per night'),
-    'latitude': fields.Float(required=True, description='Latitude of the place'),
-    'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'owner_id': fields.String(required=True, description='ID of the owner'),
-    'owner': fields.Nested(user_model, description='Owner of the place'),
-    'amenities': fields.List(fields.Nested(amenity_model), description='List of amenities'),
-    'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
-})
 @api.route('/')
 class PlaceList(Resource):
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
-    @jwt_required()
+    # @jwt_required()
     def post(self):
         """Register a new place"""
-        current_user = get_jwt_identity()
+        # current_user = get_jwt_identity()
         data = api.payload
-        data['owner_id'] = current_user  # Ensure the owner_id is set to the current user
-        try:
-            new_place = facade.create_place(data)
-            return new_place, 201
-        except ValueError as e:
-            api.abort(400, str(e))
-        except Exception as e:
-            api.abort(500, str(e))
+        print (f'Flag 1 {data}')
+
+        new_place = facade.create_place(data)
+        return new_place, 201
+        # data['owner_id'] = current_user  # Ensure the owner_id is set to the current user
+        # try:
+        #     new_place = facade.create_place(data)
+        #     return new_place, 201
+        # except ValueError as e:
+        #     api.abort(400, str(e))
+        # except Exception as e:
+        #     api.abort(500, str(e))
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Retrieve a list of all places"""
-        try:
-            places = facade.get_all_places()
-            return places, 200
-        except Exception as e:
-            api.abort(500, str(e))
+        places = facade.get_all_places()
+        return [{'id': place.id, 'title': place.title, 'price': place.price, 'latitude': place.latitude, 'longitude': place.longitude} for place in places], 200
 
 @api.route('/<place_id>')
 class PlaceResource(Resource):
@@ -83,14 +84,14 @@ class PlaceResource(Resource):
     @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
     @api.response(403, 'Unauthorized action')
-    @jwt_required()
+    # @jwt_required()
     def put(self, place_id):
         """Update a place's information"""
-        current_user = get_jwt_identity()
+        # current_user = get_jwt_identity()
         place = facade.get_place_by_id(place_id)
         if not place:
             api.abort(404, 'Place not found')
-        if place['owner_id'] != current_user:
+        # if place['owner_id'] != current_user:
             api.abort(403, 'Unauthorized action')
         
         data = api.payload

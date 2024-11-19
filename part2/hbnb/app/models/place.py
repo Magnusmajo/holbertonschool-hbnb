@@ -5,7 +5,7 @@ from app.models.user import User
 class Place(BaseModel):
     """Represents a place with a title, description, price, location, and owner."""
 
-    def __init__(self, title: str, description: str=None, price: float=0.0, latitude: float=0.0, longitude: float=0.0, owner: User=None):
+    def __init__(self, title: str, description: str=None, price: float=0.0, latitude: float=0.0, longitude: float=0.0, owner_id: User=str):
         """
         Initializes a new Place instance.
 
@@ -27,9 +27,9 @@ class Place(BaseModel):
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner = owner
-        self.reviews = []  # A list of reviews for the place.
-        self.amenities = []  # A list of amenities available at the place.
+        self.owner_id = owner_id
+        # self.reviews = []  # A list of reviews for the place.
+        # self.amenities = []  # A list of amenities available at the place.
 
     @property
     def title(self):
@@ -67,7 +67,7 @@ class Place(BaseModel):
         Raises:
             ValueError: If the price is not a positive value.
         """
-        if value <= 0:
+        if value < 0:
             raise ValueError("Error: Price must be a positive value.")
         self._price = value
 

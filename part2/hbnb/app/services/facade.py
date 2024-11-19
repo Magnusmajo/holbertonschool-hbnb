@@ -24,13 +24,13 @@ class HBnBFacade:
             User: The new created user object.
         """
         # Validar los datos del usuario utilizando los métodos de validación de la clase User
-        first_name = User.validate_firstname(User, user_data['first_name'])
-        last_name = User.validate_lastname(User, user_data['last_name'])
+        first_name = User.validate_firstname(user_data['first_name'])
+        last_name = User.validate_lastname(user_data['last_name'])
         try:
-            email = User.validate_email(User, user_data['email'])
+            email = User.validate_email(user_data['email'])
         except ValueError as e:
             raise ValueError(f"error: Invalid email format: {e}")
-        password = User.verify_password(User, user_data['password'])
+        # password = User.verify_password(User, user_data['password'])
         
 
         # Verificar si el usuario ya existe
@@ -40,7 +40,7 @@ class HBnBFacade:
                 raise ValueError("error: User already exists")
 
         # Crear el nuevo usuario
-        user = User(first_name=first_name, last_name=last_name, email=email, password=password, is_admin=user_data.get('is_admin', False))
+        user = User(first_name=first_name, last_name=last_name, email=email, password=user_data['password'], is_admin=user_data.get('is_admin', False))
         self.user_repo.add(user)
         return user
 
@@ -124,20 +124,14 @@ class HBnBFacade:
         Raise:
             ValueError: If the owner_id is not a valid user.
         """
-        owner = self.get_user(place_data['owner_id'])
-        if not owner:
-            raise ValueError('Invalid owner_id')
-        owner = self.get_user(place_data['owner_id'])
-
-        place_data.pop('owner_id', None)  # Remove owner_id from place_data if exist
-        place_data['owner'] = owner # Add owner object to place_data
-
-        try:
-            place = Place(**place_data)
-            self.place_repo.add(place)
-            return place
-        except ValueError as e:
-            raise ValueError(f"Invalid place data: {e}") from e
+        # owner = self.get_user(place_data['owner_id'])
+        # if not owner:
+        #     raise ValueError('Invalid owner_id')
+        place_data = {'title': 'string', 'description': 'string', 'price': 0, 'latitude': 0, 'longitude': 0, 'owner_id': '2147b500-d105-409b-b3d5-11579396a1d1'}
+        # place = Place(**place_data)
+        place = Place(title=place_data['title'], description=place_data['description'], price=place_data['price'], latitude=place_data['latitude'], longitude=place_data['longitude'], owner_id=place_data['owner_id'])
+        print(f'Flag 2 {place.owner_id}')
+        self.place_repo.add(place)
 
     # Placeholder method for fetching a place by ID
     def get_place(self, place_id):
@@ -159,8 +153,10 @@ class HBnBFacade:
 
     def get_all_places(self):
         # Placeholder for logic to retrieve all places
-        place = self.place_repo.get_all()
-        return [{'place': place, 'owner': self.get_user(place.owner_id)} for place in place]
+        yo = self.place_repo.get_all()
+        print(f'Flag 3 {yo}')
+        return self.place_repo.get_all()
+        
 
     def update_place(self, place_id, place_data):
         # Placeholder for logic to update a place

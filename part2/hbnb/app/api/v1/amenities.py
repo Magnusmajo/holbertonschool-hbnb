@@ -49,6 +49,7 @@ class AmenityResource(Resource):
         """Update an amenity's information"""
         data = api.payload
         amenity = facade.update_amenity(amenity_id, data)  # Call the facade method
+
         if amenity:
             return {'message': 'Amenity updated successfully'}, 200  # Return success message
         return {'error': 'Amenity not found'}, 404  # Handle not found

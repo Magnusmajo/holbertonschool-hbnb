@@ -6,22 +6,22 @@ class User(BaseModel):
     """A class to represent a user in the application"""
     __emails = set()  # Class-level set to track unique emails
 
-    def __init__(self, first_name, last_name, email, is_admin=False, password=None):
+    def __init__(self, first_name, last_name, email, password, is_admin=False):
         super().__init__()  # Call to BaseModel's constructor
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
+        self.password = password
+        self.is_admin = is_admin
+        self.places = []  #It saves the places that the user has created
 
         if email in User.__emails:
             raise ValueError("Email already registered.")
         User.__emails.add(email)
 
-        self.is_admin = is_admin
-        self.places = []  #It saves the places that the user has created
-        self.password = password
 
-        if password:
-            self.hash_password(password)
+        # if password:
+        #     self.hash_password(password)
 
     @staticmethod
     def validate_firstname(first_name):
@@ -41,13 +41,13 @@ class User(BaseModel):
             raise ValueError("error: Invalid email format")
         return email
     
-    def hash_password(self, password):
-        """Hashes the password before storing it."""
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+    # def hash_password(self, password):
+    #     """Hashes the password before storing it."""
+    #     self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    def verify_password(self, password):
-        """Verifies if the provided password matches the hashed password."""
-        return bcrypt.check_password_hash(self.password, password)
+    # def verify_password(self, password):
+    #     """Verifies if the provided password matches the hashed password."""
+    #     return bcrypt.check_password_hash(self.password, password)
 
     def add_place(self, place):
         self.places.append(place)

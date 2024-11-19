@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwtw
+#from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwtw
 from app.services import facade
 from flask import request
 
@@ -32,10 +32,10 @@ class UserList(Resource):
             return {'error': 'Email already registered'}, 400
         
         # Hash the password before storing it
-        user_data['password'] = facade.hash_password(user_data['password'])
+        # user_data['password'] = facade.hash_password(user_data['password'])
 
         new_user = facade.create_user(user_data)
-        return {'id': new_user.id, 'first_name': new_user.first_name, 'last_name': new_user.last_name, 'email': new_user.email}, 201
+        return {'id': new_user.id, 'first_name': new_user.first_name, 'last_name': new_user.last_name, 'email': new_user.email, 'password': new_user.password}, 201
 
     @api.response(200, 'Users retrieved successfully')
     def get(self):
@@ -61,17 +61,17 @@ class UserResource(Resource):
     @api.response(400, 'Invalid input data')
     @api.response(400, 'You cannot modify email or password')
     @api.response(403, 'Unauthorized action')
-    @jwt_required()
+    # @jwt_required()
     def put(self, user_id):
         """Update user information"""
         user_data = api.payload
-        current_user_id = get_jwt_identity()
+        # current_user_id = get_jwt_identity()
 
-        if current_user_id != user_id:
-            return {'error': 'Unauthorized action'}, 403
+        # if current_user_id != user_id:
+        #     return {'error': 'Unauthorized action'}, 403
 
-        if 'email' in user_data or 'password' in user_data:
-            return {'error': 'You cannot modify email or password'}, 400
+        # if 'email' in user_data or 'password' in user_data:
+        #     return {'error': 'You cannot modify email or password'}, 400
 
         updated_user = facade.update_user(user_id, user_data)
         if not updated_user:
@@ -92,14 +92,15 @@ class UserResource(Resource):
             return {'error': 'User  not found'}, 404
 
 @api.route('/users/<user_id>')
-class AdminUserResource(Resource):
-    @jwt_required()
+# class AdminUserResource(Resource):
+class UserResource(Resource):
+    # @jwt_required()
     def put(self, user_id):
-        current_user = get_jwt_identity()
+        # current_user = get_jwt_identity()
         
-        # If 'is_admin' is part of the identity payload
-        if not current_user.get('is_admin'):
-            return {'error': 'Admin privileges required'}, 403
+        # # If 'is_admin' is part of the identity payload
+        # if not current_user.get('is_admin'):
+        #     return {'error': 'Admin privileges required'}, 403
 
         data = request.json
         email = data.get('email')

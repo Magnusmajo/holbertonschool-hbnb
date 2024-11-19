@@ -25,18 +25,18 @@ class Amenity(BaseModel):
             self.places.append(place)
             place.amenities.append(self)
 
-        def list_places(self):
-            """Returns a list of places that have this amenity."""
-            return self.places
+    def list_places(self):
+        """Returns a list of places that have this amenity."""
+        return self.places
 
-        def __repr__(self):
-            return f"<Amenity {self.name}>"
+    def __repr__(self):
+        return f"<Amenity {self.name}>"
         
-        def to_dict(self):
-            """Returns a dictionary representation of the Amenity instance."""
-            amenity_dict = super().to_dict()
-            amenity_dict.update({
-                'name': self.name,
-                'places': [place.to_dict() for place in self.places]
-            })
-            return amenity_dict
+    def to_dict(self):
+        """Returns a dictionary representation of the Amenity instance."""
+        amenity_dict = super().to_dict()
+        amenity_dict.update({
+            'name': self.name,
+            'places': [place.to_dict() for place in self.places]
+        })
+        return amenity_dict
