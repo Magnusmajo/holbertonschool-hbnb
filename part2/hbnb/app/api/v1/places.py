@@ -46,19 +46,12 @@ class PlaceList(Resource):
         """Register a new place"""
         # current_user = get_jwt_identity()
         data = api.payload
-        print (f'Flag 1 {data}')
-
-        new_place = facade.create_place(data)
-        return new_place, 201
-        # data['owner_id'] = current_user  # Ensure the owner_id is set to the current user
-        # try:
-        #     new_place = facade.create_place(data)
-        #     return new_place, 201
-        # except ValueError as e:
-        #     api.abort(400, str(e))
-        # except Exception as e:
-        #     api.abort(500, str(e))
-
+        try:
+            place = facade.create_place(data)
+            return {'id': place.id, 'title': place.title, 'price': place.price, 'latitude': place.latitude, 'longitude': place.longitude}, 201
+        except Exception as e:
+            return {'error': str(e)}, 400
+    
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Retrieve a list of all places"""
