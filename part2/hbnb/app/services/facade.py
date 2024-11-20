@@ -124,6 +124,18 @@ class HBnBFacade:
         place = Place(**place_data)
         self.place_repo.add(place)
         return place
+    
+        # Placeholder method for fetching a user by ID
+    def get_user(self, user_id):
+        """
+        Retrieve a user by user ID.
+        """
+        use = self.user_repo.get(user_id)
+        if use:
+            return use
+        else:
+            raise ValueError("User not found")
+
 
     # Placeholder method for fetching a place by ID
     def get_place(self, place_id):
@@ -146,7 +158,7 @@ class HBnBFacade:
     def get_all_places(self):
         # Placeholder for logic to retrieve all places
         yo = self.place_repo.get_all()
-        print(f'Flag 3 {yo}')
+        # print(f'Flag 3 {yo}')
         return self.place_repo.get_all()
         
 
