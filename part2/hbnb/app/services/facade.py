@@ -36,7 +36,7 @@ class HBnBFacade:
                 raise ValueError("error: User already exists")
 
         # Crear el nuevo usuario
-        user = User(first_name=first_name, last_name=last_name, email=email, password=user_data['password'], is_admin=user_data.get('is_admin', False))
+        user = User(first_name=first_name, last_name=last_name, email=email, is_admin=user_data.get('is_admin', False))
         self.user_repo.add(user)
         return user
 
@@ -78,7 +78,7 @@ class HBnBFacade:
         if 'is_admin' in user_data:
             user.is_admin = user_data['is_admin']
 
-        return self.user_repo.update(user_id, user)
+        return self.user_repo.update(user_id, user_data)
 
         # Placeholder method for creating an amenity
     def create_amenity(self, amenity_data):

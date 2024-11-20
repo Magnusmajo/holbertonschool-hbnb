@@ -65,12 +65,11 @@ class PlaceResource(Resource):
     def get(self, place_id):
         """Get place details by ID"""
         try:
-            place = facade.get_place_by_id(place_id)
-            if not place:
-                api.abort(404, 'Place not found')
-            return place, 200
-        except Exception as e:
-            api.abort(500, str(e))
+            place = facade.get_place(place_id)
+            print(f'Flag 1 {place}')
+            return {'id': place.id, 'title': place.title, 'price': place.price, 'latitude': place.latitude, 'longitude': place.longitude}, 200
+        except ValueError:
+            return {'error': 'Place not found'}, 404
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
@@ -81,17 +80,8 @@ class PlaceResource(Resource):
     def put(self, place_id):
         """Update a place's information"""
         # current_user = get_jwt_identity()
-        place = facade.get_place_by_id(place_id)
-        if not place:
-            api.abort(404, 'Place not found')
-        # if place['owner_id'] != current_user:
-            api.abort(403, 'Unauthorized action')
-        
         data = api.payload
-        try:
-            updated_place = facade.update_place(place_id, data)
-            return updated_place, 200
-        except ValueError as e:
-            api.abort(400, str(e))
-        except Exception as e:
-            api.abort(500, str(e))
+        place = facade.update_place(place_id, data)
+        if place:
+            return {'message': 'Place updated successfully'}, 200
+        return {'error': 'Place not found'}, 404

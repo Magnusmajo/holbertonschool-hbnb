@@ -28,8 +28,8 @@ class Place(BaseModel):
         self.latitude = latitude
         self.longitude = longitude
         self.owner_id = owner_id
-        # self.reviews = []  # A list of reviews for the place.
-        # self.amenities = []  # A list of amenities available at the place.
+        self.reviews = []  # A list of reviews for the place.
+        self.amenities = []  # A list of amenities available at the place.
 
     @property
     def title(self):
