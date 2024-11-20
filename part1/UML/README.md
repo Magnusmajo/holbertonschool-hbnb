@@ -99,3 +99,62 @@ Este diagrama muestra la arquitectura del sistema dividiéndolo en tres capas pr
 3. **Procesamiento de la Lógica Central**: El **Patrón de Fachada** delega las solicitudes a la **Lógica Central** y utiliza las **Entidades de Negocio** para procesar las operaciones.
 4. **Acceso a la Persistencia**: La Capa de Lógica de Negocio se comunica con la Capa de Persistencia para almacenar o recuperar datos según las operaciones realizadas.
 5. **Respuesta al Usuario**: Los resultados son enviados de vuelta a la Capa de Presentación, donde se muestran al usuario a través de la **Interfaz de Usuario**.
+
+# Diagramas de Secuencia
+
+Este documento describe los flujos de interacción representados en los diagramas de secuencia. Cada diagrama ilustra cómo los componentes de un sistema interactúan para realizar una funcionalidad específica.
+
+---
+
+## 1. Registro de Usuario
+
+### Descripción:
+Este diagrama muestra el flujo para registrar un nuevo usuario en el sistema.
+
+1. **Usuario**: Envía una solicitud de registro con su nombre, correo electrónico y contraseña.
+2. **API**: Valida el formato de los datos y los envía a la capa de lógica de negocio.
+3. **Lógica de Negocio**:
+   - Verifica si el correo electrónico ya está registrado.
+   - Si el correo no está registrado, guarda los datos en la base de datos y confirma el registro.
+   - Si el correo ya está registrado, devuelve un mensaje de error.
+4. **Base de Datos**: Interactúa para comprobar y almacenar los datos del usuario.
+
+### Resultado:
+El usuario recibe una respuesta de éxito o error dependiendo de si el correo electrónico ya estaba registrado.
+
+---
+
+## 2. Solicitud de Lista con Filtros
+
+### Descripción:
+Este diagrama describe el flujo para obtener una lista de lugares basada en filtros específicos.
+
+1. **Usuario**: Envía una solicitud con los filtros deseados.
+2. **API**: Valida los filtros y envía la solicitud a la lógica de negocio.
+3. **Lógica de Negocio**: Realiza una consulta en la base de datos utilizando los filtros.
+4. **Base de Datos**: Devuelve los resultados que coinciden con los filtros.
+5. **API**: Procesa los resultados y los devuelve al usuario.
+
+### Resultado:
+El usuario recibe una lista de lugares que cumplen con los filtros proporcionados.
+
+---
+
+## 3. Envío de Reseña
+
+### Descripción:
+Este diagrama muestra el flujo para enviar y guardar una reseña de un lugar.
+
+1. **Usuario**: Envía los datos de la reseña.
+2. **API**: Valida los datos y los pasa a la lógica de negocio.
+3. **Lógica de Negocio**:
+   - Verifica si el lugar existe en la base de datos.
+   - Confirma que el usuario tiene permisos para realizar la reseña.
+   - Guarda la reseña en la base de datos.
+4. **Base de Datos**: Almacena los datos de la reseña.
+5. **API**: Envía una confirmación de éxito o un mensaje de error al usuario.
+
+### Resultado:
+El usuario recibe una confirmación del registro exitoso de la reseña o un mensaje de error si hubo algún problema.
+
+---
