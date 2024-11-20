@@ -17,16 +17,17 @@ class ReviewList(Resource):
     @api.expect(review_model)
     @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
-    @jwt_required()
+    # @jwt_required()
     def post(self):
         """Register a new review"""
-        data = api.payload # Get the JSON data from the request
+        data = api.payload
+
         try:
             review = facade.create_review(data)
-            return review, 201
-        except ValueError as e:
-            api.abort(400, str(e))
-            user_id = get_jwt_identity()  # Get the ID of the authenticated user
+            return {'id': review.id, 'text': review.text, 'rating': review.rating, 'user_id': review.user_id, 'place_id': review.place_id}, 201
+        except Exception as e:
+            return {'error': str(e)}, 400
+        # user_id = get_jwt_identity()  # Get the ID of the authenticated user
 
             # Check if the place belongs to the user
             place = facade.get_place_by_id(data['place_id'])

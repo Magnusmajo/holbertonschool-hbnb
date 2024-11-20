@@ -75,15 +75,3 @@ class UserResource(Resource):
         if not updated_user:
             return {'error': 'User not found'}, 404
         return {'id': updated_user.id, 'first_name': updated_user.first_name, 'last_name': updated_user.last_name, 'email': updated_user.email}, 200
-
-@api.route('/<email>')
-class UserResourceByEmail(Resource):
-    @api.response(200, 'User details retrieved successfully')
-    @api.response(404, 'User not found')
-    def get(self, email):
-        """Get user details by email"""
-        user = facade.get_user_by_email(email)
-        if user:
-            return {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}, 200
-        else:
-            return {'error': 'User  not found'}, 404
