@@ -97,7 +97,6 @@ class HBnBFacade:
         place = Place(**place_data)
         self.place_repo.add(place)
         return place
-    
 
 
     # Placeholder method for fetching a place by ID
@@ -112,8 +111,8 @@ class HBnBFacade:
 
     def get_all_places(self):
         # Placeholder for logic to retrieve all places
-        yo = self.place_repo.get_all()
-        # print(f'Flag 3 {yo}')
+        # yo = self.place_repo.get_all()
+        # # print(f'Flag 3 {yo}')
         return self.place_repo.get_all()
 
     def update_place(self, place_id, place_data):
@@ -172,6 +171,22 @@ class HBnBFacade:
 
     def update_review(self, review_id, review_data):
         # Placeholder for logic to update a review
+        review = self.get_review(review_id)
+        if not review:
+            raise ValueError("Review not found")
+        
+        if 'text' in review_data:
+            review.text = review_data['text']
+        if 'rating' in review_data:
+            review.rating = review_data['rating']
+        if 'user_id' in review_data:
+            review.user_id = review_data['user_id']
+            if 'place_id' in review_data:
+                review.place_id = review_data['place_id']
+                place = self.get_place(review_data['place_id'])
+                if not place:
+                    raise ValueError("Place not found")
+                review.place = place
         return self.review_repo.update(review_id, review_data)
 
     def delete_review(self, review_id):
