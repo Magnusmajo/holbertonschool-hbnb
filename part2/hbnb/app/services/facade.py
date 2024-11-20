@@ -14,16 +14,8 @@ class HBnBFacade:
 
     # Placeholder method for creating a user
     def create_user(self, user_data):
-        """
-        Create a new user with the provided user data.
-
-        Args:
-            user_data (dict): A dictionary containing user attributes.
-
-        Returns:
-            User: The new created user object.
-        """
-        # Validar los datos del usuario utilizando los métodos de validación de la clase User
+        """        Create a new user with the provided user data."""
+        # Validate user data
         first_name = User.validate_firstname(user_data['first_name'])
         last_name = User.validate_lastname(user_data['last_name'])
         email = User.validate_email(user_data['email'])
@@ -49,9 +41,7 @@ class HBnBFacade:
 
     # Placeholder method for fetching a user by ID
     def get_user(self, user_id):
-        """
-        Retrieve a user by user ID.
-        """
+        """Retrieve a user by user ID."""
         user = self.user_repo.get(user_id)
         if user:
             return user
@@ -61,8 +51,8 @@ class HBnBFacade:
     # Placeholder method for fetching a user by email
     def get_user_by_email(self, email):
         """ Retrieve a user by email. """
-        return self.user_repo.get_by_attribute('email', email)
-
+        self.user_repo.get_by_attribute('email', email)
+    
     def update_user(self, user_id: str, user_data: dict):
         """Updates a user by ID"""
         user = self.get_user(user_id)
@@ -82,26 +72,14 @@ class HBnBFacade:
 
         # Placeholder method for creating an amenity
     def create_amenity(self, amenity_data):
-        """
-        Create a new amenity and save it to the repository.
-
-        Args:
-            amenity_data (dict): A dictionary containing the data for the new amenity.
-
-        Returns:
-            Amenity: The newly created amenity object.
-        """
+        """Create a new amenity and save it to the repository."""
         amenity = Amenity(**amenity_data)
         self.amenity_repo.add(amenity)
         return amenity
 
     # Placeholder method for fetching an amenity by ID
     def get_amenity(self, amenity_id):
-        """
-        Retrieve an amenity by its ID.
-
-        Same way than get_user.
-        """
+        """Retrieve an amenity by its ID.Same way than get_user."""
         return self.amenity_repo.get(amenity_id)
 
     def get_all_amenities(self):
@@ -114,44 +92,21 @@ class HBnBFacade:
 
     # Placeholder method for creating a place
     def create_place(self, place_data):
-        """
-        Creates a new place and saves it to the repository.
-        Same way than create_user.
-        Raise:
-            ValueError: If the owner_id is not a valid user.
-        """
+        """Creates a new place and saves it to the repository. Same way than create_user."""
         
         place = Place(**place_data)
         self.place_repo.add(place)
         return place
     
-        # Placeholder method for fetching a user by ID
-    def get_user(self, user_id):
-        """
-        Retrieve a user by user ID.
-        """
-        use = self.user_repo.get(user_id)
-        if use:
-            return use
-        else:
-            raise ValueError("User not found")
 
 
     # Placeholder method for fetching a place by ID
     def get_place(self, place_id):
-        """
-        Retrieve a place by its ID.
-        Same way than get_user.
-        """
+        """Retrieve a place by its ID.
+        Same way than get_user."""
         place = self.place_repo.get(place_id)
         if place:
-            owner = self.get_user(place.owner_id)
-            amenities = self.amenity_repo.get_all()
-            return{
-                'place': place,
-                'owner': owner,
-                'amenities': amenities
-            }
+            return place
         else:
             raise ValueError("Place not found")
 
@@ -160,27 +115,33 @@ class HBnBFacade:
         yo = self.place_repo.get_all()
         # print(f'Flag 3 {yo}')
         return self.place_repo.get_all()
-        
 
     def update_place(self, place_id, place_data):
         # Placeholder for logic to update a place
         place = self.get_place(place_id)
         if not place:
             raise ValueError("Place not found")
-        for key, value in place_data.items():
-            setattr(place, key, value)
+        
+        if 'title' in place_data:
+            place.title = place_data['title']
+        if 'description' in place_data:
+            place.description = place_data['description']
+        if 'price' in place_data:
+            place.price = place_data['price']
+        if 'latitude' in place_data:
+            place.latitude = place_data['latitude']
+        if 'longitude' in place_data:
+            place.longitude = place_data['longitude']
+        if 'owner' in place_data:
+            place.owner = place_data['owner']
+        # if 'amenities' in place_data:
+        #     place.amenities = place_data['amenities']
+
         return self.place_repo.update(place_id, place_data)
 
     # Placeholder method for creating a review
     def create_review(self, review_data):
-        """
-        Creates a review for a given user and place.
-
-        Args:
-            review_data (dict): A dictionary containing review details including 'user_id' and place_id'.
-        Raises:
-            ValueError: If the user or place is not found.
-        """
+        """Creates a review for a given user and place."""
         user = self.get_user(review_data['user_id'])
         place = self.get_place(review_data['place_id'])
         if not user or not place:

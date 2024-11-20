@@ -58,15 +58,7 @@ class Place(BaseModel):
 
     @price.setter
     def price(self, value):
-        """
-        Sets the price of the place.
-
-        Args:
-            value (float): The new price for the place.
-
-        Raises:
-            ValueError: If the price is not a positive value.
-        """
+        """Sets the price of the place.The price must be a positive number."""
         if value < 0:
             raise ValueError("Error: Price must be a positive value.")
         self._price = value
@@ -79,14 +71,7 @@ class Place(BaseModel):
     @latitude.setter
     def latitude(self, value):
         """
-        Sets the latitude of the place.
-
-        Args:
-            value (float): The new latitude for the place.
-
-        Raises:
-            ValueError: If the latitude is not within the range of -90.0 to 90.0.
-        """
+        Sets the latitude of the place."""
         if not (-90.0 <= value <= 90.0):
             raise ValueError("Error: Latitude must be within the range of -90.0 to 90.0.")
         self._latitude = value
@@ -98,15 +83,7 @@ class Place(BaseModel):
 
     @longitude.setter
     def longitude(self, value):
-        """
-        Sets the longitude of the place.
-
-        Args:
-            value (float): The new longitude for the place.
-
-        Raises:
-            ValueError: If the longitude is not within the range of -180.0 to 180.0.
-        """
+        """Sets the longitude of the place."""
         if not (-180.0 <= value <= 180.0):
             raise ValueError("Error: Longitude must be within the range of -180.0 to 180.0.")
         self._longitude = value
@@ -118,15 +95,7 @@ class Place(BaseModel):
 
     @owner.setter
     def owner(self, value):
-        """
-        Sets the owner of the place.
-
-        Args:
-            value (User): The user instance to set as the owner.
-
-        Raises:
-            ValueError: If the provided value is not an instance of User.
-        """
+        """Sets the owner of the place."""
         if not isinstance(value, User):
             raise ValueError("Error: Owner must be a valid User instance.")
         self._owner = value
@@ -143,7 +112,7 @@ class Place(BaseModel):
     def add_amenity(self, amenity):
         """Adds an amenity to the place."""
         self.amenities.append(amenity)
-        amenity.places.append(self)  # Ensure the amenity knows which place it belongs to
+        amenity.places.append(self)  # Ensure the place-owner of the amenity
 
     def list_amenities(self):
         """Returns a list of amenities available at the place."""

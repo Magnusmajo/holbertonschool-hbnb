@@ -66,10 +66,10 @@ class PlaceResource(Resource):
         """Get place details by ID"""
         try:
             place = facade.get_place(place_id)
-            print(f'Flag 1 {place}')
             return {'id': place.id, 'title': place.title, 'price': place.price, 'latitude': place.latitude, 'longitude': place.longitude}, 200
-        except ValueError:
-            return {'error': 'Place not found'}, 404
+        except Exception as e:
+            return {'error': str(e)}, 404
+
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
