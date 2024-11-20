@@ -33,7 +33,7 @@ Probar la validación de los datos en los endpoints
 | **Tipo de Petición** | POST |
   
    - **Descripción:** Comprobar que el endpoint acepta una solicitud con datos válidos y crea correctamente el usuario.
-   - **Datos de Entrada:** Usamos cURL para enviar una solicitud con datos válidos para crear un usuario y retornar código de estado.  
+   - **Datos de Entrada:** Usamos cURL para enviar una solicitud con datos válidos para crear un usuario y retornar el código de estado.  
 
      ```bash
      curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json" -d '{
@@ -53,7 +53,7 @@ Probar la validación de los datos en los endpoints
        "email": "lbutterley0@bravesites.com"
      }
      ```
-   - **Resultado de la Prueba:** `Pasó`  
+   - **Resultado de la Prueba:** `PASS`  
      Código de estado: `201 Created`  
      Cuerpo de respuesta:
      ```json
@@ -72,17 +72,135 @@ Probar la validación de los datos en los endpoints
 
 | **Endpoint** | `/api/v1/users/` |
 |--------------|-------------------------|
-| **Descripción** | Crea un nuevo usuario con campos vacíos. |
+| **Descripción** | Crea un nuevo usuario con el campo `first_name` vacío. |
 | **Cuerpo de la Petición** | JSON con atributos `first_name`, `last_name`, `email`. |
 | **Tipo de Petición** | POST |
   
-   - **Descripción:** Confirmar que el sistema rechaza entradas con campos vacíos, mostrando un error en la respuesta.
-   - **Datos de Entrada:** Usamos cURL para enviar una solicitud con campos vacíos y retornar código de estado.   
+   - **Descripción:** Confirmar que el sistema rechaza entradas con el campo `first_name` vacío, mostrando un error en la respuesta.
+   - **Datos de Entrada:** Usamos cURL para enviar una solicitud con campos vacíos y retornar el código de estado.   
 
      ```bash
      curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json" -d '{
      "first_name": "",
+     "last_name": "Butterley",
+     "email": "lbutterley0@bravesites.com"
+     }' -w "%{http_code}\n"
+     ```
+   - **Respuesta Esperada:**  
+     Código de estado: `400 Bad Request`  
+     Cuerpo de respuesta:
+     ```json
+     {
+     "error": "First name is required and must be at most 50 characters long."
+     }
+     ```
+     
+   - **Resultado de la Prueba:** `PASS`  
+     Código de estado: `400 Bad Request`  
+     ```json
+     {
+     "error": "First name is required and must be at most 50 characters long."
+     }
+     ```
+
+
+
+## Prueba de Creación de Usuario Inválida (first_name inválido)
+
+
+
+| **Endpoint** | `/api/v1/users/` |
+|--------------|-------------------------|
+| **Descripción** | Crea un nuevo usuario con el campo `first_name` inválido. |
+| **Cuerpo de la Petición** | JSON con atributos `first_name`, `last_name`, `email`. |
+| **Tipo de Petición** | POST |
+  
+   - **Descripción:** Confirmar que el sistema rechaza la entrada de un campo inválido, mostrando un error en la respuesta.
+   - **Datos de Entrada:** Usamos cURL para enviar una solicitud con `first_name` demasiado largo y retornar código de estado.   
+
+     ```bash
+     curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json" -d '{
+     "first_name": "usuario_con_nombre_demasiado_largo_para_ser_aceptado",
+     "last_name": "Butterley",
+     "email": "lbutterley0@bravesites.com"
+     }' -w "%{http_code}\n"
+     ```
+   - **Respuesta Esperada:**  
+     Código de estado: `400 Bad Request`  
+     Cuerpo de respuesta:
+     ```json
+     {
+     "error": "First name is required and must be at most 50 characters long."
+     }
+     ```
+     
+   - **Resultado de la Prueba:** `PASS`  
+     Código de estado: `400 Bad Request`
+     ```json
+     {
+     "error": "First name is required and must be at most 50 characters long."
+     }
+     ```
+   
+
+
+## Prueba de Creación de Usuario Inválida (campos vacíos)
+
+
+
+| **Endpoint** | `/api/v1/users/` |
+|--------------|-------------------------|
+| **Descripción** | Crea un nuevo usuario con el campo `last_name` vacío. |
+| **Cuerpo de la Petición** | JSON con atributos `first_name`, `last_name`, `email`. |
+| **Tipo de Petición** | POST |
+  
+   - **Descripción:** Confirmar que el sistema rechaza entradas con el campo `last_name` vacío, mostrando un error en la respuesta.
+   - **Datos de Entrada:** Usamos cURL para enviar una solicitud con campos vacíos y retornar el código de estado.   
+
+     ```bash
+     curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json" -d '{
+     "first_name": "Lidia",
      "last_name": "",
+     "email": "lbutterley0@bravesites.com"
+     }' -w "%{http_code}\n"
+     ```
+   - **Respuesta Esperada:**  
+     Código de estado: `400 Bad Request`  
+     Cuerpo de respuesta:
+     ```json
+     {
+     "error": "Last name is required and must be at most 50 characters long."
+     }
+     ```
+     
+   - **Resultado de la Prueba:** `PASS`  
+     Código de estado: `400 Bad Request`  
+     Cuerpo de respuesta:
+     ```json
+     {
+     "error": "Last name is required and must be at most 50 characters long."
+     }
+     ```
+
+
+
+## Prueba de Creación de Usuario Inválida (campos vacíos)
+
+
+
+| **Endpoint** | `/api/v1/users/` |
+|--------------|-------------------------|
+| **Descripción** | Crea un nuevo usuario con el campo `email` vacío. |
+| **Cuerpo de la Petición** | JSON con atributos `first_name`, `last_name`, `email`. |
+| **Tipo de Petición** | POST |
+  
+   - **Descripción:** Confirmar que el sistema rechaza entradas con el campo `email` vacío, mostrando un error en la respuesta.
+   - **Datos de Entrada:** Usamos cURL para enviar una solicitud con campos vacíos y retornar el código de estado.   
+
+     ```bash
+     curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json" -d '{
+     "first_name": "Lidia",
+     "last_name": "Butterley",
      "email": ""
      }' -w "%{http_code}\n"
      ```
@@ -91,22 +209,22 @@ Probar la validación de los datos en los endpoints
      Cuerpo de respuesta:
      ```json
      {
-     "error": "Invalid input data"
+     "error": "Email is required."
      }
      ```
      
-   - **Resultado de la Prueba:** `Falló`  
-     Código de estado: `201 Created`  
+   - **Resultado de la Prueba:** `PASS`  
+     Código de estado: `400 Bad Request`  
      Cuerpo de respuesta:
      ```json
      {
-     "id": "9511d94b-e374-4165-9f76-a5a5b6064987", // ID generado
-     "first_name": "",
-     "last_name": "",
-     "email": ""
+     "error": "Email is required."
      }
      ```
-     Descripción del error: El sistema aceptó datos inválidos (`first_name`, `last_name` y `email` vacíos) y generó un nuevo usuario en lugar de rechazar la solicitud.
+
+
+
+
 
 
 ## Prueba de Creación de Usuario Inválida (email inválido)
@@ -138,18 +256,9 @@ Probar la validación de los datos en los endpoints
      }
      ```
      
-   - **Resultado de la Prueba:** `Falló`  
-     Código de estado: `201 Created`  
-     Cuerpo de respuesta:
-     ```json
-     {
-     "id": "9511d94b-e374-4165-9f76-a5a5b6064987", // ID generado
-     "first_name": "Lidia",
-     "last_name": "Butterley",
-     "email": "lbutterley"
-     }
-     ```
-     Descripción del error: El sistema aceptó datos inválidos (`email` inválido) y generó un nuevo usuario en lugar de rechazar la solicitud.
+   - **Resultado de la Prueba:** `PASS`  
+     Código de estado: `400 Bad Request`  
+     
 
 
 ## Prueba de Creación de Lugar (place) Válida
