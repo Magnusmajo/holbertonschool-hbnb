@@ -8,9 +8,9 @@ class User(BaseModel):
 
     def __init__(self, first_name, last_name, email, is_admin=False):
         super().__init__()  # Call to BaseModel's constructor
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
+        self.first_name = self.validate_firstname(first_name)
+        self.last_name = self.validate_lastname(last_name)
+        self.email = self.validate_email(email)
         # self.password = password
         self.is_admin = is_admin
         self.places = []  #It saves the places that the user has created
@@ -56,6 +56,9 @@ class User(BaseModel):
     def add_place(self, place):
         self.places.append(place)
         place.owner = self   # Set the place's owner to this user
+
+    def add_review(self, review):
+        self.reviews.append(review)
 
     def __repr__(self):
         return f"<User  {self.first_name} {self.last_name}>"

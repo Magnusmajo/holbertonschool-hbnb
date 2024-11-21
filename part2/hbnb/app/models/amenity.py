@@ -3,40 +3,14 @@ from app.models.base import BaseModel
 class Amenity(BaseModel):
     def __init__(self, name):
         super().__init__()
-        self.name = name
-        self.places = []  # A list of places that have this amenity.
+        self.name = self.validate_name(name)
 
-    @property
-    def name(self):
-        return self._name
 
-    @name.setter
-    def name(self, value):
-        if not value or len(value) > 50:
-            raise ValueError("Name must be provided and be less than 50 characters")
-        self._name = value
-
-    def save(self):
-        super().save()  # Call the save method from BaseModel
-
-    def add_place(self, place):
-        """Adds a place to the list of places that have this amenity."""
-        if place not in self.places:
-            self.places.append(place)
-            place.amenities.append(self)
-
-    def list_places(self):
-        """Returns a list of places that have this amenity."""
-        return self.places
+    @staticmethod
+    def validate_name(name):
+        if not name or len(name) > 100:
+            raise ValueError("Error: Name is required and must be at most 100 characters long.")
+        return name
 
     def __repr__(self):
-        return f"<Amenity {self.name}>"
-        
-    def to_dict(self):
-        """Returns a dictionary representation of the Amenity instance."""
-        amenity_dict = super().to_dict()
-        amenity_dict.update({
-            'name': self.name,
-            'places': [place.to_dict() for place in self.places]
-        })
-        return amenity_dict
+        return f"Amenity('{self.name}')"

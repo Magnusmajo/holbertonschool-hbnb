@@ -22,15 +22,15 @@ class ReviewList(Resource):
 
         try:
             new_review = facade.create_review(user_data)
-            return {'id': new_review.id, 'text': new_review.text, 'rating': new_review.rating, 'user_id': new_review.user_id, 'place_id': new_review.place_id}, 201
-        except Exception as e:
-            return {'error': str(e)}, 400
+            return {'message': 'Review created successfully'}, 201
+        except ValueError as e:
+            return {'message': str(e)}, 400
 
     @api.response(200, 'List of reviews retrieved successfully')
     def get(self):
         """Retrieve a list of all reviews"""
         reviews = facade.get_all_reviews()
-        return [{'id': review.id, 'text': review.text, 'rating': review.rating, 'user_id': review.user_id, 'place_id': review.place_id} for review in reviews], 200
+        return {'reviews': reviews}, 200
 
 @api.route('/<review_id>')
 class ReviewResource(Resource):

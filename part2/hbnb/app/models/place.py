@@ -16,7 +16,7 @@ class Place(BaseModel):
             price (float): The price of the place.
             latitude (float): The latitude of the place.
             longitude (float): The longitude of the place.
-            owner (User): The owner of the place.
+            owner_id (User): The owner of the place.
 
         Raises:
             ValueError: If any of the provided values are invalid.
@@ -31,74 +31,40 @@ class Place(BaseModel):
         self.reviews = []  # A list of reviews for the place.
         self.amenities = []  # A list of amenities available at the place.
 
-    @property
-    def title(self):
-        """Gets the title of the place."""
-        return self._title
+    @staticmethod
+    def validate_title(title):
+        """Validates the title of a place   """
+        if not title or len(title) > 100:
+            raise ValueError("Error: Title is required and must be at most 100 characters long.")
+        return title
 
-    @title.setter
-    def title(self, value):
-        """
-        Sets the title of the place.
+    @staticmethod
+    def validate_price(price):
+        """Validates the price of a place."""
+        if price < 0:
+            raise ValueError("Error: Price must be a non-negative value.")
+        return price
 
-        Args:
-            value (str): The new title for the place.
-
-        Raises:
-            ValueError: If the title is empty or exceeds 100 characters.
-        """
-        if not value or len(value) > 100:
-            raise ValueError("Error: Title is required and must be 100 characters or less.")
-        self._title = value
-
-    @property
-    def price(self):
-        """Gets the price of the place."""
-        return self._price
-
-    @price.setter
-    def price(self, value):
-        """Sets the price of the place.The price must be a positive number."""
-        if value < 0:
-            raise ValueError("Error: Price must be a positive value.")
-        self._price = value
-
-    @property
-    def latitude(self):
-        """Gets the latitude of the place."""
-        return self._latitude
-
-    @latitude.setter
-    def latitude(self, value):
-        """
-        Sets the latitude of the place."""
-        if not (-90.0 <= value <= 90.0):
+    @staticmethod
+    def validate_latitude(latitude):
+        """Validates the latitude of a place."""
+        if not (-90.0 <= latitude <= 90.0):
             raise ValueError("Error: Latitude must be within the range of -90.0 to 90.0.")
-        self._latitude = value
+        return latitude
 
-    @property
-    def longitude(self):
-        """Gets the longitude of the place."""
-        return self._longitude
-
-    @longitude.setter
-    def longitude(self, value):
-        """Sets the longitude of the place."""
-        if not (-180.0 <= value <= 180.0):
+    @staticmethod
+    def validate_longitude(longitude):
+        """Validates the longitude of a place."""
+        if not (-180.0 <= longitude <= 180.0):
             raise ValueError("Error: Longitude must be within the range of -180.0 to 180.0.")
-        self._longitude = value
+        return longitude
 
-    @property
-    def owner(self):
-        """Gets the owner of the place."""
-        return self._owner
-
-    @owner.setter
-    def owner(self, value):
-        """Sets the owner of the place."""
-        if not isinstance(value, User):
+    @staticmethod
+    def validate_owner_id(owner_id):
+        """Validates the owner of a place."""
+        if not isinstance(owner_id, User):
             raise ValueError("Error: Owner must be a valid User instance.")
-        self._owner = value
+        return owner_id
 
     def add_review(self, review):
         """Adds a review to the place."""
@@ -118,17 +84,5 @@ class Place(BaseModel):
         """Returns a list of amenities available at the place."""
         return self.amenities
 
-    def __repr__(self): return f"<Place {self.title}>"
-
-    def to_dict(self):
-        """Convert the Place instance to a dictionary for JSON serialization."""
-        return {
-            'title': self.title,
-            'description': self.description,
-            'price': self.price,
-            'latitude': self.latitude,
-            'longitude': self.longitude,
-            'owner': self.owner.username if self.owner else None,
-            'reviews': [review.to_dict() for review in self.reviews],
-            'amenities': [amenity.to_dict() for amenity in self.amenities],
-        }
+    def __repr__(self):
+        return f"Place('{self.name}' owned by {self.owner.first_name} {self.owner.last_name})"
