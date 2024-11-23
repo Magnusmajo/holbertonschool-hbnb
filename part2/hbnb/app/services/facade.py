@@ -98,7 +98,6 @@ class HBnBFacade:
         self.place_repo.add(place)
         return place
 
-
     # Placeholder method for fetching a place by ID
     def get_place(self, place_id):
         """Retrieve a place by its ID.
@@ -141,21 +140,28 @@ class HBnBFacade:
     # Placeholder method for creating a review
     def create_review(self, review_data):
         """Creates a review for a given user and place."""
-        user = self.get_user(review_data['user_id'])
-        place = self.get_place(review_data['place_id'])
+        user_id = review_data.get('user')
+        place_id = review_data.get('place')
+        rating = review_data.get('rating')
+        text = review_data.get('text')
+
+        user = self.user_repo.get(user_id)
+        place = self.get_place(place_id)
+
         if not user or not place:
             raise ValueError("User or place not found")
-        
-        review = Review(text=review_data['text'], rating=review_data['rating'], user=user, place=place)
+
+        review = Review(user=user, place=place, rating=rating, text=text)
         self.review_repo.add(review)
-        return self.object_to_dict(review)
+        return review
 
     def get_review(self, review_id):
-        """
-        Retrieve a review by its ID.
-        Same way than get_user.
-        """
-        return self.review_repo.get(review_id)
+        """Retrieve a review by its ID.
+        Same way than get_user."""
+        review = self.review_repo.get(review_id)
+        if not review:
+            raise ValueError("Review not found")
+        return review
 
     def get_all_reviews(self):
         # Placeholder for logic to retrieve all reviews
@@ -163,58 +169,24 @@ class HBnBFacade:
 
     def get_reviews_by_place(self, place_id):
         # Placeholder for logic to retrieve all reviews for a specific place
-        place = self.get_place(place_id)
-        if place:
-            return place.list_reviews()
-        else:
+        place = self.place_repo.get(place_id)
+        if not place:
             raise ValueError("Place not found")
+        return place.reviews
 
     def update_review(self, review_id, review_data):
         # Placeholder for logic to update a review
-        review = self.get_review(review_id)
+        review = self.review_repo.get(review_id)
         if not review:
             raise ValueError("Review not found")
         
-        if 'text' in review_data:
-            review.text = review_data['text']
-        if 'rating' in review_data:
-            review.rating = review_data['rating']
-        if 'user_id' in review_data:
-            review.user_id = review_data['user_id']
-            if 'place_id' in review_data:
-                review.place_id = review_data['place_id']
-                place = self.get_place(review_data['place_id'])
-                if not place:
-                    raise ValueError("Place not found")
-                review.place = place
-        return self.review_repo.update(review_id, review_data)
+        review.update(review_data)
+        return review
 
     def delete_review(self, review_id):
         # Placeholder for logic to delete a review
-        return self.review_repo.delete(review_id)
-
-    # Example method for validating data
-    def validate_data(self, data, schema):
-        # Placeholder for validation logic
-        try:
-            validate(instance=data, schema=schema)
-        except ValidationError as e:
-            raise ValueError(f"Invalid data: {e.message}")
-
-    # Example method for converting object to dict
-    def object_to_dict(self, obj):
-        """
-        Convert an object to a dictionary representation.
-
-        Args:
-            obj: The object to convert.
-
-        Returns:
-            dict: A dictionary representation of the object.
-        """
-        if isinstance(obj, list):
-            return [self.object_to_dict(item) for item in obj]
-        elif isinstance(obj, dict):
-            return {key: self.object_to_dict(value) for key, value in obj.items()}
-        else:
-            return obj
+        review = self.review_repo.get(review_id)
+        if not review:
+            raise ValueError("Review not found")
+        self.review_repo.delete(review_id)
+        return review

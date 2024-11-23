@@ -5,7 +5,7 @@ from app.models.user import User
 class Place(BaseModel):
     """Represents a place with a title, description, price, location, and owner."""
 
-    def __init__(self, title: str, description: str=None, price: float=0.0, latitude: float=0.0, longitude: float=0.0, owner_id: User=None):
+    def __init__(self, title: str, description: str=None, price: float=0.0, latitude: float=0.0, longitude: float=0.0, owner: User=None, owner_id: int=None):
         """
         Initializes a new Place instance.
 
@@ -16,7 +16,7 @@ class Place(BaseModel):
             price (float): The price of the place.
             latitude (float): The latitude of the place.
             longitude (float): The longitude of the place.
-            owner_id (User): The owner of the place.
+            owner (User): The owner of the place.
 
         Raises:
             ValueError: If any of the provided values are invalid.
@@ -27,6 +27,7 @@ class Place(BaseModel):
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
+        self.owner = owner
         self.owner_id = owner_id
         self.reviews = []  # A list of reviews for the place.
         self.amenities = []  # A list of amenities available at the place.
@@ -58,13 +59,19 @@ class Place(BaseModel):
         if not (-180.0 <= longitude <= 180.0):
             raise ValueError("Error: Longitude must be within the range of -180.0 to 180.0.")
         return longitude
+    
+    def validate_owner(self):
+        """Validates the owner of a place."""
+        if not self.owner:
+            raise ValueError("Error: Owner is required.")
+        return self.owner
 
     @staticmethod
-    def validate_owner_id(owner_id):
+    def validate_owner_id(owner):
         """Validates the owner of a place."""
-        if not isinstance(owner_id, User):
+        if not isinstance(owner, User):
             raise ValueError("Error: Owner must be a valid User instance.")
-        return owner_id
+        return owner
 
     def add_review(self, review):
         """Adds a review to the place."""

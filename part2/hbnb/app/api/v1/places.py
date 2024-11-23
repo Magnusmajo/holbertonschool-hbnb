@@ -24,8 +24,10 @@ place_model = api.model('Place', {
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'owner_id': fields.String(required=True, description='ID of the owner')
-    # 'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
+    'owner_id': fields.String(required=True, description='ID of the owner'),
+    # 'owner': fields.Nested(user_model, description='Owner of the place'),
+    # 'amenities': fields.List(fields.String, required=True, description="List of amenities ID's"),
+    # 'reviews': fields.List(fields.String, required=True, description="List of reviews ID's")
 })
 
 # Adding the review model
@@ -66,9 +68,28 @@ class PlaceResource(Resource):
         """Get place details by ID"""
         try:
             place = facade.get_place(place_id)
-            return {'id': place.id, 'title': place.title, 'price': place.price, 'latitude': place.latitude, 'longitude': place.longitude}, 200
+            if not place:
+                return {'error': 'Place not found'}, 404
+            
+            return {
+                'id': place.id,
+                'title': place.title,
+                'description': place.description,
+                'latitude': place.latitude,
+                'longitude': place.longitude,
+                'owner': {
+                    'id': place.owner.id,
+                    'first_name': place.owner.first_name,
+                    'last_name': place.owner.last_name,
+                    'email': place.owner.email
+                },
+                'amenities': [{
+                    'id': amenity.id,
+                    'name': amenity.name
+                } for amenity in place.amenities]
+            }, 200
         except Exception as e:
-            return {'error': str(e)}, 404
+            return {'error': str(e)}, 500
 
 
     @api.expect(place_model)
