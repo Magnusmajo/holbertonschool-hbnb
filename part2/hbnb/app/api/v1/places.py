@@ -50,7 +50,14 @@ class PlaceList(Resource):
         data = api.payload
         try:
             place = facade.create_place(data)
-            return {'id': place.id, 'title': place.title, 'price': place.price, 'latitude': place.latitude, 'longitude': place.longitude}, 201
+            return {
+                'id': place.id,
+                'title': place.title,
+                'price': place.price,
+                'latitude': place.latitude,
+                'longitude': place.longitude,
+                'owner_id': place.owner_id
+                }, 201
         except Exception as e:
             return {'error': str(e)}, 400
     
@@ -58,7 +65,15 @@ class PlaceList(Resource):
     def get(self):
         """Retrieve a list of all places"""
         places = facade.get_all_places()
-        return [{'id': place.id,'title': place.title, 'price': place.price, 'latitude': place.latitude, 'longitude': place.longitude} for place in places], 200
+        return [
+            {
+                'id': place.id,
+                'title': place.title,
+                'price': place.price,
+                'latitude': place.latitude,
+                'longitude': place.longitude
+                } for place in places
+                ], 200
 
 @api.route('/<place_id>')
 class PlaceResource(Resource):
@@ -72,21 +87,21 @@ class PlaceResource(Resource):
                 return {'error': 'Place not found'}, 404
             
             return {
-                'id': place.id,
-                'title': place.title,
-                'description': place.description,
-                'latitude': place.latitude,
-                'longitude': place.longitude,
+                'id': place.id if place.id else None,
+                'title': place.title if place.title else None,
+                'description': place.description if place.description else None,
+                'latitude': place.latitude if place.latitude else None,
+                'longitude': place.longitude if place.longitude else None,
                 'owner': {
-                    'id': place.owner.id,
-                    'first_name': place.owner.first_name,
-                    'last_name': place.owner.last_name,
-                    'email': place.owner.email
-                },
+                    'id': place.owner.id if place.owner and place.owner.id else None,
+                    'first_name': place.owner.first_name if place.owner and place.owner.first_name else None,
+                    'last_name': place.owner.last_name if place.owner and place.owner.last_name else None,
+                    'email': place.owner.email if place.owner and place.owner.email else None
+                } if place.owner else None,
                 'amenities': [{
                     'id': amenity.id,
                     'name': amenity.name
-                } for amenity in place.amenities]
+                } for amenity in place.amenities] if place.amenities else []
             }, 200
         except Exception as e:
             return {'error': str(e)}, 500

@@ -93,8 +93,20 @@ class HBnBFacade:
     # Placeholder method for creating a place
     def create_place(self, place_data):
         """Creates a new place and saves it to the repository. Same way than create_user."""
+        owner_id = place_data.get('owner_id')
         
+        owner = self.user_repo.get(owner_id)
+        if not owner:
+            raise ValueError("Owner not found")
+        
+        #Instantiate a new place object
         place = Place(**place_data)
+        place.owner = owner
+        
+        amenities_ids = place_data.get('amenities', [])
+        amenities = [self.amenity_repo.get(amenity_id) for amenity_id in amenities_ids if self.amenity_repo.get(amenity_id)]
+        place.amenities = amenities
+
         self.place_repo.add(place)
         return place
 
@@ -104,6 +116,8 @@ class HBnBFacade:
         Same way than get_user."""
         place = self.place_repo.get(place_id)
         if place:
+            place.owner = self.user_repo.get(place.owner_id)
+            place.amenities = [self.amenity_repo.get(amenity_id) for amenity_id in place.amenities]
             return place
         else:
             raise ValueError("Place not found")
