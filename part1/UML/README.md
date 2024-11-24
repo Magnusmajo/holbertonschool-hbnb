@@ -1,5 +1,7 @@
 # Diagrama de Clases de HBNB
 
+![img](https://github.com/user-attachments/assets/1efdbfbe-8e65-4067-bdea-82efc4af63ad)
+
 ## Descripción General
 
 Este diagrama de clases de HBNB representa la estructura y las relaciones entre las clases principales en la plataforma. Expone los elementos que intervienen en las interacciones de los usuarios, la gestión de propiedades y los procesos de reseñas.
