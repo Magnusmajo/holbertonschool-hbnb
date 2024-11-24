@@ -158,3 +158,27 @@ Este diagrama muestra el flujo para enviar y guardar una reseña de un lugar.
 El usuario recibe una confirmación del registro exitoso de la reseña o un mensaje de error si hubo algún problema.
 
 ---
+
+## 4. Creación de Lugar
+
+### Descripción:
+Este diagrama muestra el flujo para crear un nuevo lugar en el sistema, donde un usuario envía información sobre el lugar a través de la API.
+
+### Flujo de interacción:
+
+1. *Usuario*: Envía los datos del lugar (nombre, ubicación y precio) al sistema.
+2. *API*: Realiza la validación del formato de los datos y verifica la autenticación del usuario.
+3. *Lógica de Negocio*:
+   - Verifica que el usuario tenga permisos necesarios y que se cumplan las reglas de negocio para la creación del lugar.
+   - Si todo es correcto, envía los datos del lugar a la base de datos para guardarlos.
+4. *Base de Datos*:
+   - Guarda los datos del lugar.
+   - Confirma el registro del lugar.
+5. *Lógica de Negocio*: 
+   - Recibe la confirmación de que el lugar ha sido registrado con éxito y envía una respuesta de éxito.
+6. *API*: Procesa la respuesta de éxito y devuelve los detalles del lugar creado al usuario.
+
+### Resultado:
+El usuario recibe los detalles del lugar creado y la confirmación de que el registro se ha completado con éxito.
+
+---
