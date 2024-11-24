@@ -1,6 +1,6 @@
 # holbertonschool-hbnb
 
-![img](https://github.com/user-attachments/assets/1efdbfbe-8e65-4067-bdea-82efc4af63ad)
+![img](https://github.com/user-attachments/assets/0d034769-76d2-4b23-abcc-9ddc4aa50139)
 
 HBnB project for Holberton School
 
