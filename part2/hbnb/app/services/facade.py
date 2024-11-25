@@ -3,7 +3,6 @@ from app.models.place import Place
 from app.models.review import Review
 from app.models.amenity import Amenity
 from app.persistence.repository import InMemoryRepository
-from jsonschema import validate, ValidationError
 
 class HBnBFacade:
     def __init__(self):
@@ -19,7 +18,7 @@ class HBnBFacade:
         first_name = User.validate_firstname(user_data['first_name'])
         last_name = User.validate_lastname(user_data['last_name'])
         email = User.validate_email(user_data['email'])
-        # password = User.verify_password(user_data['password'])
+        password = user_data['password']
 
         # Check if the user already exists
         users = self.get_all_users()
@@ -28,7 +27,7 @@ class HBnBFacade:
                 raise ValueError("error: User already exists")
 
         # Crear el nuevo usuario
-        user = User(first_name=first_name, last_name=last_name, email=email, is_admin=user_data.get('is_admin', False))
+        user = User(first_name=first_name, last_name=last_name, email=email, password=password, is_admin=user_data.get('is_admin', False))
         self.user_repo.add(user)
         return user
 
