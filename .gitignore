@@ -1,0 +1,15 @@
+env/
+venv/
+# Ignorar archivos y carpetas de caché de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignorar archivos de caché de pytest
+.pytest_cache/
+
+# Ignorar otros archivos temporales generados por el sistema operativo
+*.log
+*.bak
+*.swp
