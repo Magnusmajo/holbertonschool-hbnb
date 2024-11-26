@@ -283,8 +283,8 @@ Probar la validación de los datos en los endpoints
      "price": 150.00,
      "latitude": 45.0,
      "longitude": -70.0,
-     "owner_id": "a062b085-9432-489b-9bdf-0bab29b4e27a",
-     "amenities": ["54bd4f2b-b122-4706-93f6-9b0952dce101"]
+     "owner_id": "1dc9e56d-f572-4b68-b3df-26dfde278fbb",
+     "amenities": ["79a2965c-bf88-4b31-b7fe-0ddcc0bbfa96"]
      }' -w "%{http_code}\n"
      ```
    - **Respuesta Esperada:**  
@@ -298,17 +298,17 @@ Probar la validación de los datos en los endpoints
      "price": 150.0,
      "latitude": 45.0,
      "longitude": -70.0,
-     "owner_id": "a4ec44b7-8734-4116-9492-9aeb44eec988",
+     "owner_id": "1dc9e56d-f572-4b68-b3df-26dfde278fbb",
      "amenities": [
         {
            "id": "54bd4f2b-b122-4706-93f6-9b0952dce101",
-           "name": "wifi"
+           "name": "Estacionamiento"
         }
      ],
      "reviews": []
      }
      ```
-   - **Resultado de la Prueba:** `Pasó`  
+   - **Resultado de la Prueba:** `PASS`  
      Código de estado: `201 Created`  
      Cuerpo de respuesta:
      ```json
@@ -319,11 +319,11 @@ Probar la validación de los datos en los endpoints
      "price": 150.0,
      "latitude": 45.0,
      "longitude": -70.0,
-     "owner_id": "a4ec44b7-8734-4116-9492-9aeb44eec988",
+     "owner_id": "1dc9e56d-f572-4b68-b3df-26dfde278fbb",
      "amenities": [
         {
-           "id": "54bd4f2b-b122-4706-93f6-9b0952dce101",
-           "name": "wifi"
+           "id": "79a2965c-bf88-4b31-b7fe-0ddcc0bbfa96",
+           "name": "Estacionamiento"
         }
      ],
      "reviews": []
@@ -353,8 +353,8 @@ Probar la validación de los datos en los endpoints
      "price": -150.00,
      "latitude": 95.0,
      "longitude": -200.0,
-     "owner_id": "a4ec44b7-8734-4116-9492-9aeb44eec988",
-     "amenities": ["54bd4f2b-b122-4706-93f6-9b0952dce101"]
+     "owner_id": "1dc9e56d-f572-4b68-b3df-26dfde278fbb",
+     "amenities": ["79a2965c-bf88-4b31-b7fe-0ddcc0bbfa96"]
      }' -w "%{http_code}\n"
      ```
    - **Respuesta Esperada:**  
@@ -365,7 +365,7 @@ Probar la validación de los datos en los endpoints
      "error": "Invalid input data"
      }
      ```
-   - **Resultado de la Prueba:** `Falló`  
+   - **Resultado de la Prueba:** `FAIL`  
      Código de estado: `201 Created`  
      Cuerpo de respuesta:
      ```json
@@ -376,11 +376,11 @@ Probar la validación de los datos en los endpoints
      "price": -50.0,
      "latitude": 95.0,
      "longitude": -200.0,
-     "owner_id": "a4ec44b7-8734-4116-9492-9aeb44eec988",
+     "owner_id": "1dc9e56d-f572-4b68-b3df-26dfde278fbb",
      "amenities": [
         {
-            "id": "54bd4f2b-b122-4706-93f6-9b0952dce101",
-            "name": "wifi"
+            "id": "79a2965c-bf88-4b31-b7fe-0ddcc0bbfa96",
+            "name": "Estacionamiento"
         }
      ],
      "reviews": []
@@ -409,8 +409,8 @@ Descripción del error: El sistema aceptó datos inválidos (`title` vacío, `pr
      -d '{
      "text": "Un lugar espectacular para descansar",
      "rating": 5,
-     "place_id": "15db46c2-66db-48d4-afbb-8f6e8466e46a",
-     "user_id": "a4ec44b7-8734-4116-9492-9aeb44eec988"
+     "place_id": "d4ebcd0a-c8e7-442e-bc07-fc92a7c05c2f",
+     "user_id": "1dc9e56d-f572-4b68-b3df-26dfde278fbb"
      }' -w "%{http_code}\n"
      ```
    - **Respuesta Esperada:**  
@@ -421,23 +421,19 @@ Descripción del error: El sistema aceptó datos inválidos (`title` vacío, `pr
      "id": "4f763cc8-a23e-46c1-8087-aeb44ad8b2fc",
      "text": "Un lugar espectacular para descansar",
      "rating": 5,
-     "user_id": "a4ec44b7-8734-4116-9492-9aeb44eec988",
-     "place_id": "15db46c2-66db-48d4-afbb-8f6e8466e46a"
+     "user_id": "1dc9e56d-f572-4b68-b3df-26dfde278fbb",
+     "place_id": "d4ebcd0a-c8e7-442e-bc07-fc92a7c05c2f"
      }
      ```
-   - **Resultado de la Prueba:** `Pasó`  
-     Código de estado: `200 OK`  
+   - **Resultado de la Prueba:** `FAIL`  
+     Código de estado: `400 Bad Request`  
      Cuerpo de respuesta:
      ```json
      {
-     "id": "4f763cc8-a23e-46c1-8087-aeb44ad8b2fc",
-     "text": "Un lugar espectacular para descansar",
-     "rating": 5,
-     "user_id": "a4ec44b7-8734-4116-9492-9aeb44eec988",
-     "place_id": "15db46c2-66db-48d4-afbb-8f6e8466e46a"
+     "error": "Place not found"
      }
      ```
-Notas: El servidor procesó la solicitud, pero no devolvió el código `201 Created` que sería el más adecuado para indicar la creación de un nuevo recurso.
+Notas: No se crea la review, no maneja el place adecuadamente.
 
 
 
@@ -460,8 +456,8 @@ Notas: El servidor procesó la solicitud, pero no devolvió el código `201 Crea
      -d '{
      "text": "",
      "rating": 6,
-     "place_id": "15db46c2-66db-48d4-afbb-8f6e8466e46a",
-     "user_id": "a4ec44b7-8734-4116-9492-9aeb44eec988"
+     "place_id": "7b90273d-5847-4a1b-8dee-33b09c616e3d",
+     "user_id": "194a2ff2-7dd6-4bad-ac53-795e826a6d16"
      }' -w "%{http_code}\n"
      ```
    - **Respuesta Esperada:**  
@@ -472,19 +468,15 @@ Notas: El servidor procesó la solicitud, pero no devolvió el código `201 Crea
      "error": "Invalid input data"
      }
      ```
-   - **Resultado de la Prueba:** `Falló`  
-     Código de estado: `200 OK`  
+   - **Resultado de la Prueba:** `FAIL`  
+     Código de estado: `400 Bad Request`  
      Cuerpo de respuesta:
      ```json
      {
-     "id": "f5da6870-ba21-4121-9ae6-61c7e09493c9",
-     "text": "",
-     "rating": 6,
-     "user_id": "a4ec44b7-8734-4116-9492-9aeb44eec988",
-     "place_id": "15db46c2-66db-48d4-afbb-8f6e8466e46a"
+     "error": "Place not found"
      }
      ```
-Descripción del error: El sistema aceptó datos inválidos (`text` vacío y `rating` fuera de rango) y generó una nueva reseña en lugar de rechazar la solicitud.
+Descripción del error: No da el mensaje de error adecuado.
 
 
 
@@ -517,7 +509,7 @@ Descripción del error: El sistema aceptó datos inválidos (`text` vacío y `ra
      "name": "Estacionamiento"
      }
      ```
-   - **Resultado de la Prueba:** `Pasó`  
+   - **Resultado de la Prueba:** `PASS`  
      Código de estado: `201 Created`  
      Cuerpo de respuesta:
      ```json
@@ -545,7 +537,7 @@ Descripción del error: El sistema aceptó datos inválidos (`text` vacío y `ra
      curl -X POST "http://127.0.0.1:5000/api/v1/amenities/" \
      -H "Content-Type: application/json" \
      -d '{
-     "name": "Amenity con un nombre demasiado largo para probar la validación en el sistema"
+     "name": "Amenity con un nombre demasiado largo para probar la validación en el sistema / Amenity con un nombre demasiado largo para probar la validación en el sistema"
      }' -w "%{http_code}\n"
      ```
    - **Respuesta Esperada:**  
@@ -556,16 +548,15 @@ Descripción del error: El sistema aceptó datos inválidos (`text` vacío y `ra
      "error": "Name is too long"
      }
      ```
-   - **Resultado de la Prueba:** `Falló`  
-     Código de estado: `201 Created`  
+   - **Resultado de la Prueba:** `PASS`  
+     Código de estado: `400 Bad Request`  
      Cuerpo de respuesta:
      ```json
      {
-     "id": "fec550ce-c10d-499d-9380-ea7234d972f3",
-     "name": "Amenity con un nombre demasiado largo para probar la validación en el sistema"
+     "error": "Error: Name is required and must be at most 100 characters long."
      }
      ```
-Descripción del error: El sistema aceptó datos inválidos (`name` demasiado largo) y generó un nuevo amenity en lugar de rechazar la solicitud.
+Descripción del error: El sistema no aceptó datos inválidos (`name` demasiado largo) y rechazó la solicitud de creación de un nuevo amenity.
 
 
 # Documentación de Pruebas con Pytest
@@ -594,52 +585,14 @@ pytest test_users.py
 El sistema debe pasar todas las pruebas definidas en test_users.py sin errores.
 ### Resultado Obtenido
 ```txt
-=========================================================================================== test session starts ============================================================================================
+============================================================================================ test session starts ============================================================================================
 platform linux -- Python 3.10.12, pytest-8.3.3, pluggy-1.5.0
-rootdir: /home/balemansteve/holbertonschool-hbnb/part2/tests
-collected 3 items                                                                                                                                                                                          
+rootdir: /mnt/c/Proyectos VS CODE/Holberton/holbertonschool-hbnb/part2/hbnb/tests
+collected 3 items                                                                                                                                                                                           
 
-test_users.py .FF                                                                                                                                                                                    [100%]
+test_users.py ...                                                                                                                                                                                     [100%]
 
-================================================================================================= FAILURES =================================================================================================
-_____________________________________________________________________________________ test_user_creation_empty_fields ______________________________________________________________________________________
-
-    def test_user_creation_empty_fields():
-        '''
-        User creation test with empty fields.
-        '''
-        data = {
-            "first_name": "",
-            "last_name": "",
-            "email": ""
-        }
-        response = requests.post(f"{BASE_URL}/users/", json=data)
->       assert response.status_code == 400
-E       assert 201 == 400
-E        +  where 201 = <Response [201]>.status_code
-
-test_users.py:33: AssertionError
-_____________________________________________________________________________________ test_user_creation_invalid_email _____________________________________________________________________________________
-
-    def test_user_creation_invalid_email():
-        '''
-        User creation test with invalid email.
-        '''
-        data = {
-            "first_name": "Lidia",
-            "last_name": "Butterley",
-            "email": "lbutterley"
-        }
-        response = requests.post(f"{BASE_URL}/users/", json=data)
->       assert response.status_code == 400
-E       assert 201 == 400
-E        +  where 201 = <Response [201]>.status_code
-
-test_users.py:47: AssertionError
-========================================================================================= short test summary info ==========================================================================================
-FAILED test_users.py::test_user_creation_empty_fields - assert 201 == 400
-FAILED test_users.py::test_user_creation_invalid_email - assert 201 == 400
-======================================================================================= 2 failed, 1 passed in 0.16s ========================================================================================
+============================================================================================= 3 passed in 0.74s =============================================================================================
 ```
 
 
@@ -649,19 +602,19 @@ FAILED test_users.py::test_user_creation_invalid_email - assert 201 == 400
      Descripción: Crea un usuario con datos válidos.  
      Código de estado esperado: `201 Created`  
      Código de estado recibido: `201 Created`   
-     Resultado: `Pasó`, el usuario fue creado exitosamente.      
+     Resultado: `PASS`, el usuario fue creado exitosamente.      
 
  - **Prueba `test_user_creation_empty_fields`**  
      Descripción: Crea un usuario con campos vacíos.   
      Código de estado esperado: `400 Bad Request`  
-     Código de estado recibido: `201 Created`   
-     Resultado: `Falló`, el sistema permitió la creación de un usuario con campos vacíos.
+     Código de estado recibido: `400 Bad Request`   
+     Resultado: `PASS`, el sistema rechazó la creación de un usuario con campos vacíos.
 
  - **Prueba `test_user_creation_invalid_email`**  
      Descripción: Crea un usuario con email inválido.    
      Código de estado esperado: `400 Bad Request`  
-     Código de estado recibido: `201 Created`   
-     Resultado: `Falló`, el sistema permitió la creación de un usuario con email inválido.
+     Código de estado recibido: `400 Bad Request`   
+     Resultado: `PASS`, el sistema rechazó la creación de un usuario con email inválido.
 
 
 
@@ -681,18 +634,17 @@ pytest test_places.py
 El sistema debe pasar todas las pruebas definidas en test_places.py sin errores.
 ### Resultado Obtenido
 ```txt
-balemansteve@DESKTOP-PPJI7L7:~/holbertonschool-hbnb/part2/tests$ pytest test_places.py 
-=========================================================================================== test session starts ============================================================================================
+============================================================================================ test session starts ============================================================================================
 platform linux -- Python 3.10.12, pytest-8.3.3, pluggy-1.5.0
-rootdir: /home/balemansteve/holbertonschool-hbnb/part2/tests
-collected 2 items                                                                                                                                                                                          
+rootdir: /mnt/c/Proyectos VS CODE/Holberton/holbertonschool-hbnb/part2/hbnb/tests
+collected 2 items                                                                                                                                                                                           
 
-test_places.py .F                                                                                                                                                                                    [100%]
+test_places.py .F                                                                                                                                                                                     [100%]
 
-================================================================================================= FAILURES =================================================================================================
-_______________________________________________________________________________________ test_place_creation_invalid ________________________________________________________________________________________
+================================================================================================= FAILURES ==================================================================================================
+________________________________________________________________________________________ test_place_creation_invalid ________________________________________________________________________________________
 
-create_user = '698a05fd-42f2-4b8e-83a8-be955f216f25', create_amenity = '49cd2459-de1d-4438-84ab-3ada9b5d50f8'
+create_user = 'd579e425-7c7f-44c1-95e3-7149e2cb346e', create_amenity = 'c43d65d9-50e3-4aa6-a735-cf3880f3df26'
 
     def test_place_creation_invalid(create_user, create_amenity):
         """
@@ -705,7 +657,7 @@ create_user = '698a05fd-42f2-4b8e-83a8-be955f216f25', create_amenity = '49cd2459
             "latitude": 95.0,
             "longitude": -200.0,
             "owner_id": create_user,  # Replace with valid owner_id
-            "amenities": [create_amenity]  # Replace with valid amenity
+            "amenities": [create_amenity]  # Replace with valid amenity id
         }
         response = requests.post(f"{BASE_URL}/places/", json=data)
 >       assert response.status_code == 400
@@ -713,9 +665,9 @@ E       assert 201 == 400
 E        +  where 201 = <Response [201]>.status_code
 
 test_places.py:65: AssertionError
-========================================================================================= short test summary info ==========================================================================================
+========================================================================================== short test summary info ==========================================================================================
 FAILED test_places.py::test_place_creation_invalid - assert 201 == 400
-======================================================================================= 1 failed, 1 passed in 0.17s ========================================================================================
+======================================================================================== 1 failed, 1 passed in 1.68s ========================================================================================
 ```
 
 
@@ -725,13 +677,13 @@ FAILED test_places.py::test_place_creation_invalid - assert 201 == 400
      Descripción: Crea un lugar con datos válidos.  
      Código de estado esperado: `201 Created`  
      Código de estado recibido: `201 Created`   
-     Resultado: `Pasó`, el lugar fue creado exitosamente.      
+     Resultado: `PASS`, el lugar fue creado exitosamente.      
 
  - **Prueba `test_place_creation_invalid`**  
      Descripción: Crea un lugar con el título vacío, precio negativo y coordenadas fuera de rango.   
      Código de estado esperado: `400 Bad Request`  
      Código de estado recibido: `201 Created`   
-     Resultado: `Falló`, el sistema permitió la creación de un lugar con campos inválidos.
+     Resultado: `FAIL`, el sistema permitió la creación de un lugar con campos inválidos.
 
 
 
