@@ -2,21 +2,15 @@ from app.models.user import User
 from app.models.place import Place
 from app.models.review import Review
 from app.models.amenity import Amenity
-# from app.persistence.repository import InMemoryRepository
-from app.persistence.repository import SQLAlchemyRepository
+from app.persistence.repository import InMemoryRepository
 
 
 class HBnBFacade:
     def __init__(self):
-        # self.user_repo = InMemoryRepository()
-        # self.place_repo = InMemoryRepository()
-        # self.review_repo = InMemoryRepository()
-        # self.amenity_repo = InMemoryRepository()
-
-        self.user_repo = SQLAlchemyRepository(User)
-        self.place_repo = SQLAlchemyRepository(Place)
-        self.review_repo = SQLAlchemyRepository(Review)
-        self.amenity_repo = SQLAlchemyRepository(Amenity)
+        self.user_repo = InMemoryRepository()
+        self.place_repo = InMemoryRepository()
+        self.review_repo = InMemoryRepository()
+        self.amenity_repo = InMemoryRepository()
 
     # Placeholder method for creating a user
     def create_user(self, user_data):
@@ -25,7 +19,7 @@ class HBnBFacade:
         first_name = User.validate_firstname(user_data['first_name'])
         last_name = User.validate_lastname(user_data['last_name'])
         email = User.validate_email(user_data['email'])
-        password = user_data['password']
+        # password = User.verify_password(user_data['password'])
 
         # Check if the user already exists
         users = self.get_all_users()
@@ -33,8 +27,8 @@ class HBnBFacade:
             if i.email == email:
                 raise ValueError("error: User already exists")
 
-        # Create a new user object
-        user = User(first_name=first_name, last_name=last_name, email=email, password=password, is_admin=user_data.get('is_admin', False))
+        # Crear el nuevo usuario
+        user = User(first_name=first_name, last_name=last_name, email=email, is_admin=user_data.get('is_admin', False))
         self.user_repo.add(user)
         return user
 
@@ -94,10 +88,7 @@ class HBnBFacade:
 
     def update_amenity(self, amenity_id, amenity_data):
         # Placeholder for logic to update an amenity
-        amenity = self.get_amenity(amenity_id)
-        for key, value in amenity_data.items():
-            setattr(amenity, key, value)
-        return self.amenity_repo.update(amenity)
+        return self.amenity_repo.update(amenity_id, amenity_data)
 
     # Placeholder method for creating a place
     def create_place(self, place_data):
@@ -138,16 +129,27 @@ class HBnBFacade:
         return self.place_repo.get_all()
 
     def update_place(self, place_id, place_data):
-        """Update a place by ID."""
+        # Placeholder for logic to update a place
         place = self.get_place(place_id)
         if not place:
             raise ValueError("Place not found")
         
-        # CAMBIO: Uso de setattr para actualizar atributos del lugar
-        for key, value in place_data.items():
-            setattr(place, key, value)
+        if 'title' in place_data:
+            place.title = place_data['title']
+        if 'description' in place_data:
+            place.description = place_data['description']
+        if 'price' in place_data:
+            place.price = place_data['price']
+        if 'latitude' in place_data:
+            place.latitude = place_data['latitude']
+        if 'longitude' in place_data:
+            place.longitude = place_data['longitude']
+        if 'owner' in place_data:
+            place.owner = place_data['owner']
+        # if 'amenities' in place_data:
+        #     place.amenities = place_data['amenities']
 
-        return self.place_repo.update(place)
+        return self.place_repo.update(place_id, place_data)
 
     # Placeholder method for creating a review
     def create_review(self, review_data):
@@ -192,9 +194,8 @@ class HBnBFacade:
         if not review:
             raise ValueError("Review not found")
         
-        for key, value in review_data.items():
-            setattr(review, key, value)
-        return self.review_repo.update(review)
+        review.update(review_data)
+        return review
 
     def delete_review(self, review_id):
         # Placeholder for logic to delete a review

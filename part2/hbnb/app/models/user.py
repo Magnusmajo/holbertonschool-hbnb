@@ -1,16 +1,17 @@
 import re
 from app.models.base import BaseModel
+# import bcrypt
 
 class User(BaseModel):
     """A class to represent a user in the application"""
     __emails = set()  # Class-level set to track unique emails
 
-    def __init__(self, first_name, last_name, email, password, is_admin=False):
+    def __init__(self, first_name, last_name, email, is_admin=False):
         super().__init__()  # Call to BaseModel's constructor
         self.first_name = self.validate_firstname(first_name)
         self.last_name = self.validate_lastname(last_name)
         self.email = self.validate_email(email)
-        self.password = self.hash_password(password)
+        # self.password = password
         self.is_admin = is_admin
         self.places = []  #It saves the places that the user has created
         self.reviews = []  #It saves the reviews that the user has created
@@ -44,16 +45,13 @@ class User(BaseModel):
             raise ValueError("error: Invalid email format")
         return email
     
-    
-    def hash_password(self, password):
-        from app import bcrypt
-        """Hashes the password before storing it."""
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+    # def hash_password(self, password):
+    #     """Hashes the password before storing it."""
+    #     self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    def verify_password(self, password):
-        from app import bcrypt
-        """Verifies if the provided password matches the hashed password."""
-        return bcrypt.check_password_hash(self.password, password)
+    # def verify_password(self, password):
+    #     """Verifies if the provided password matches the hashed password."""
+    #     return bcrypt.check_password_hash(self.password, password)
 
     def add_place(self, place):
         self.places.append(place)
