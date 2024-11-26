@@ -2,11 +2,12 @@ from app.services.repositories.user_repository import UserRepository
 from app.models.user import User
 from app.models.place import Place
 from app.models.amenity import Amenity
+from app.models.review import Review
 
 class HBnBFacade:
     def __init__(self):
         self.user_repo = UserRepository()
-
+    "<--------User--------->"
     def create_user(self, user_data):
         user = User(**user_data)
         user.hash_password(user_data['password'])
@@ -19,6 +20,7 @@ class HBnBFacade:
     def get_user_by_email(self, email):
         return self.user_repo.get_user_by_email(email)
     
+    "<-------Places---------->"
     def create_place(self, place_data):
         place = Place(**place_data)
         self.place_repo.add(place)
@@ -33,6 +35,7 @@ class HBnBFacade:
     def get_places_by_user(self, user_id):
         return self.place_repo.get_places_by_user(user_id)
     
+    "<-------Amenities-------->"
     def create_amenity(self, amenity_data):
         amenity = Amenity(**amenity_data)
         self.amenity_repo.add(amenity)
@@ -44,6 +47,7 @@ class HBnBFacade:
     def get_amenities(self):
         return self.amenity_repo.get_all()
     
+    "<-------Reviews-------->"
     def create_review(self, review_data):
         review = Review(**review_data)
         self.review_repo.add(review)
