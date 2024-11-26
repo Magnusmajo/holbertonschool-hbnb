@@ -12,8 +12,6 @@ class Review(BaseModel):
         user (User): The user who made the review.
         created_at (datetime): The datetime when the review was created.
         updated_at (datetime): The datetime when the review was last updated.
-    Methods:
-        __repr__(): Returns a string representation of the review.
     """
     def __init__(self, text=str, rating=int, place=Place, user=User):
         super().__init__()
