@@ -18,6 +18,7 @@ def create_app(config_class='config.DevelopmentConfig'):
     app = Flask(__name__)
     app.config.from_object(config_class)  # Load the configuration from the specified class
     api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API')
+
     bcrypt.init_app(app)
     jwt.init_app(app)
     db.init_app(app)

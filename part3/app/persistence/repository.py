@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from app import db
 from app.models.user import User
 from app.persistence.repository import SQLAlchemyRepository
 
