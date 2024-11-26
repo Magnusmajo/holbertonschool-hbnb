@@ -85,7 +85,7 @@ class Place(BaseModel):
     def add_amenity(self, amenity):
         """Adds an amenity to the place."""
         self.amenities.append(amenity)
-        amenity.places.append(self)  # Ensure the place-owner of the amenity
+        amenity.places.append(self)  # Agrega el lugar a la lista de lugares del amenity
 
     def list_amenities(self):
         """Returns a list of amenities available at the place."""
