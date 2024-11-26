@@ -12,7 +12,7 @@ class HBnBFacade:
         self.review_repo = InMemoryRepository()
         self.amenity_repo = InMemoryRepository()
 
-    # Placeholder method for creating a user
+    "<--------Placeholder method for creating a user------------->"
     def create_user(self, user_data):
         """        Create a new user with the provided user data."""
         # Validate user data
@@ -69,7 +69,7 @@ class HBnBFacade:
 
         return self.user_repo.update(user_id, user_data)
 
-        # Placeholder method for creating an amenity
+        "<------Placeholder method for creating an amenity------->"
     def create_amenity(self, amenity_data):
         """Create a new amenity and save it to the repository."""
         amenity = Amenity(**amenity_data)
@@ -89,7 +89,7 @@ class HBnBFacade:
         # Placeholder for logic to update an amenity
         return self.amenity_repo.update(amenity_id, amenity_data)
 
-    # Placeholder method for creating a place
+    "<------Placeholder method for creating a place------->"
     def create_place(self, place_data):
         """Creates a new place and saves it to the repository. Same way than create_user."""
         owner_id = place_data.get('owner_id')
@@ -150,7 +150,7 @@ class HBnBFacade:
 
         return self.place_repo.update(place_id, place_data)
 
-    # Placeholder method for creating a review
+    "<------Placeholder method for creating a review------->"
     def create_review(self, review_data):
         """Creates a review for a given user and place."""
         user_id = review_data.get('user')
