@@ -47,3 +47,4 @@ def test_user_creation_invalid_email():
     assert response.status_code == 400
     response_data = response.json()
     assert "error" in response_data
+    assert "email" in response_data
