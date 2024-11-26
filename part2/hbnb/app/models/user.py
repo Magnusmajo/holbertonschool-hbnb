@@ -42,7 +42,7 @@ class User(BaseModel):
 
     def add_place(self, place):
         self.places.append(place)
-        place.owner = self   # Set the place of the owner to this user
+        place.owner = self   # coloca el dueno de lugar
 
     def add_review(self, review):
         self.reviews.append(review)
