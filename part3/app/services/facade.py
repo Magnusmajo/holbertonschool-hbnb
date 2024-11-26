@@ -7,6 +7,7 @@ from app.models.review import Review
 class HBnBFacade:
     def __init__(self):
         self.user_repo = UserRepository()
+    
     "<--------User--------->"
     def create_user(self, user_data):
         user = User(**user_data)
