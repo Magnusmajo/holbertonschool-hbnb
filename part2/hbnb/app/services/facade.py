@@ -19,7 +19,6 @@ class HBnBFacade:
         first_name = User.validate_firstname(user_data['first_name'])
         last_name = User.validate_lastname(user_data['last_name'])
         email = User.validate_email(user_data['email'])
-        # password = User.verify_password(user_data['password'])
 
         # Check if the user already exists
         users = self.get_all_users()
